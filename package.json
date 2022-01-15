@@ -6,7 +6,9 @@
   "scripts": {
     "tailwinds": "npx tailwindcss -i ./public/build.css -o ./public/tailwinds.css --watch --minify"
   },
-  "keywords": [],
+  "keywords": [
+    "discord-bot-cms"
+  ],
   "author": "jareer12",
   "license": "CC-BY-4.0",
   "dependencies": {
