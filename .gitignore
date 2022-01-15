@@ -1,1 +1,5 @@
 node_moduless
+.env
+server.bat
+package-lock.json
+OneProperly

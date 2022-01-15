@@ -1,0 +1,5 @@
+[Mon, 03 Oct 2011 22:37:40 GMT] INFO spawned worker 0
+[Mon, 03 Oct 2011 22:37:40 GMT] INFO master started
+[Mon, 03 Oct 2011 22:37:41 GMT] WARNING shutting down master
+[Mon, 03 Oct 2011 22:37:41 GMT] WARNING sent kill(SIGQUIT) to all workers
+[Mon, 03 Oct 2011 22:37:41 GMT] ERROR worker 0 died
