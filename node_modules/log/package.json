@@ -1,0 +1,159 @@
+{
+	"name": "log",
+	"version": "6.3.1",
+	"description": "Universal pluggable logging utility",
+	"author": "Mariusz Nowak <medyk@medikoo.com> (http://www.medikoo.com/)",
+	"keywords": [
+		"log",
+		"logger",
+		"debug",
+		"bunyan",
+		"winston"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/medikoo/log.git"
+	},
+	"dependencies": {
+		"d": "^1.0.1",
+		"duration": "^0.2.2",
+		"es5-ext": "^0.10.53",
+		"event-emitter": "^0.3.5",
+		"sprintf-kit": "^2.0.1",
+		"type": "^2.5.0",
+		"uni-global": "^1.0.0"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^13.2.0",
+		"browserstack-tape-runner": "^3.0.0",
+		"eslint": "^7.32.0",
+		"eslint-config-medikoo": "^4.1.0",
+		"essentials": "^1.1.1",
+		"git-list-updated": "^1.2.1",
+		"github-release-from-cc-changelog": "^2.2.0",
+		"husky": "^4.3.8",
+		"lint-staged": "^11.2.0",
+		"ncjsm": "^4.2.0",
+		"nyc": "^15.1.0",
+		"prettier-elastic": "^2.2.1",
+		"tape": "^5.3.1",
+		"tape-index": "^3.2.0"
+	},
+	"husky": {
+		"hooks": {
+			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"*.js": [
+			"eslint"
+		],
+		"*.{css,html,js,json,md,yaml,yml}": [
+			"prettier -c"
+		]
+	},
+	"eslintConfig": {
+		"extends": "medikoo/es5",
+		"root": true,
+		"overrides": [
+			{
+				"files": "lib/printf-modifiers.js",
+				"rules": {
+					"id-length": "off"
+				}
+			},
+			{
+				"files": [
+					"test/lib/abstract-writer/index.js",
+					"test/lib/printf-modifiers.js"
+				],
+				"rules": {
+					"new-cap": "off"
+				}
+			}
+		]
+	},
+	"prettier": {
+		"printWidth": 100,
+		"tabWidth": 4,
+		"overrides": [
+			{
+				"files": [
+					"*.md",
+					"*.yml"
+				],
+				"options": {
+					"tabWidth": 2
+				}
+			}
+		]
+	},
+	"nyc": {
+		"all": true,
+		"exclude": [
+			".github",
+			"coverage/**",
+			"test/**",
+			"prettier.config.js"
+		],
+		"reporter": [
+			"lcov",
+			"html",
+			"text-summary"
+		]
+	},
+	"standard-version": {
+		"skip": {
+			"commit": true,
+			"tag": true
+		},
+		"types": [
+			{
+				"type": "feat",
+				"section": "Features"
+			},
+			{
+				"type": "fix",
+				"section": "Bug Fixes"
+			},
+			{
+				"type": "perf",
+				"section": "Performance Improvements"
+			},
+			{
+				"type": "refactor",
+				"section": "Maintenance Improvements"
+			},
+			{
+				"type": "chore",
+				"section": "Maintenance Improvements"
+			}
+		]
+	},
+	"scripts": {
+		"commitlint": "commitlint -f HEAD@{15}",
+		"coverage": "nyc npm test",
+		"check-coverage": "npm run coverage && nyc check-coverage --statements 100 --function 100 --branches 100 --lines 100",
+		"lint": "eslint --ignore-path=.gitignore .",
+		"lint-updated": "pipe-git-updated --ext=js -- eslint --ignore-pattern '!*'",
+		"prepare-release": "standard-version && prettier --write CHANGELOG.md",
+		"prettier-check-updated": "pipe-git-updated --ext=css --ext=html --ext=js --ext=json --ext=md --ext=yaml --ext=yml -- prettier -c",
+		"prettify": "prettier --write --ignore-path .gitignore '**/*.{css,html,js,json,md,yaml,yml}'",
+		"test": "npm run test-prepare && npm run test-run",
+		"test-browsers": "tape-index && browserstack-tape-runner test.index.js",
+		"test-prepare": "tape-index",
+		"test-run": "node test.index.js"
+	},
+	"browserstack": {
+		"browsers": [
+			"chrome_current",
+			"firefox_current",
+			"safari_current",
+			"opera_current",
+			"ie_11",
+			"edge_current"
+		]
+	},
+	"license": "ISC"
+}

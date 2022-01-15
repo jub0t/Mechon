@@ -1,0 +1,73 @@
+{
+  "name": "sprintf-kit",
+  "version": "2.0.1",
+  "description": "sprintf parser and basic formatter",
+  "author": "Mariusz Nowak <medyk@medikoo.com> (http://www.medikoo.com/)",
+  "keywords": [
+    "printf",
+    "sprintf",
+    "log",
+    "format",
+    "string"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/medikoo/sprintf-kit.git"
+  },
+  "dependencies": {
+    "es5-ext": "^0.10.53"
+  },
+  "devDependencies": {
+    "browserstack-tape-runner": "^3.0.0",
+    "eslint": "^7.29.0",
+    "eslint-config-medikoo": "^4.0.0",
+    "essentials": "^1.1.1",
+    "git-list-updated": "^1.2.1",
+    "husky": "^4.3.8",
+    "lint-staged": "^11.0.0",
+    "nyc": "^15.1.0",
+    "prettier-elastic": "^2.2.1",
+    "tape": "^5.2.2",
+    "tape-index": "^3.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint"
+    ],
+    "*.{css,html,js,json,md,yaml,yml}": [
+      "prettier -c"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "medikoo/es5",
+    "root": true
+  },
+  "scripts": {
+    "coverage": "nyc --reporter=lcov --reporter=html --reporter=text-summary npm test",
+    "check-coverage": "npm run coverage && nyc check-coverage --statements 100 --function 100 --branches 100 --lines 100",
+    "lint": "eslint --ignore-path=.gitignore .",
+    "lint-updated": "pipe-git-updated --ext=js -- eslint --ignore-pattern '!*'",
+    "prettier-check-updated": "pipe-git-updated --ext=css --ext=html --ext=js --ext=json --ext=md --ext=yaml --ext=yml -- prettier -c",
+    "prettify": "prettier --write --ignore-path .gitignore '**/*.{css,html,js,json,md,yaml,yml}'",
+    "test": "npm run test-prepare && npm run test-run",
+    "test-browsers": "tape-index && browserstack-tape-runner test.index.js",
+    "test-prepare": "tape-index",
+    "test-run": "node test.index.js"
+  },
+  "browserstack": {
+    "browsers": [
+      "chrome_current",
+      "firefox_current",
+      "safari_current",
+      "opera_current",
+      "ie_11",
+      "edge_current"
+    ]
+  },
+  "license": "ISC"
+}
