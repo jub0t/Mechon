@@ -48,7 +48,6 @@ getDirectories = (source, callback) =>
 const StopAll = new Promise(function (resolve, rej) {
     pm2.list((err, list) => {
         list.forEach(App => {
-            console.log(fs.existsSync(`./${process.env.SECRET_PATH}/${App.name}`))
             if (fs.existsSync(`./${process.env.SECRET_PATH}/${App.name}`)) {
                 pm2.stop(App.name)
             } else {
@@ -61,15 +60,14 @@ const StopAll = new Promise(function (resolve, rej) {
 
 async function Start(Folder) {
     return new Promise((resolve, reject) => {
-        console.log(chalk.blue(`〚≡〛Starting ${Folder}, Please Wait...`));
         if (SETTINGS.IGNORE_DIRECTORY.includes(Folder.toLowerCase())) {
             resolve(`〚✘〛Log Folders Was Ignored`);
+            return;
         }
+        console.log(chalk.blue(`〚≡〛Starting ${Folder}, Please Wait...`));
         if (!fs.existsSync(`./${process.env.SECRET_PATH}/${Folder}/node_modules`)) {
-            fs.mkdir(`./${process.env.SECRET_PATH}/${Folder}/node_modules`, function () {
-                Terminal(`cd ./${process.env.SECRET_PATH}/${Folder} && npm install`).then(data => {
-                }).catch(err => {
-                })
+            Terminal(`cd ./${process.env.SECRET_PATH}/${Folder} && npm install`).then(data => {
+            }).catch(err => {
             })
         }
         PackageFile = `./${process.env.SECRET_PATH}/${Folder}/package.json`;
@@ -103,7 +101,6 @@ async function Start(Folder) {
 async function Sync() {
     return new Promise((resolve, reject) => {
         StopAll.then(data => {
-            console.log(chalk.green(data));
             getDirectories(`./${process.env.SECRET_PATH}`, function (Data) {
                 console.log(chalk.blue(`〚≡〛Syncing Applications, ${Data.length} in Queue...`));
                 new Promise((res, rej) => {
@@ -114,7 +111,6 @@ async function Sync() {
                             console.log(chalk.red(err));
                         })
                     })
-                    console.log(chalk.green(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`))
                     resolve(`〚✔〛Successfuly Synced`)
                 })
             })
@@ -162,7 +158,7 @@ LOGIN_REQUIRED_MESSAGE=Please Login To Complete This Action`;
                                 Terminal(`cd ./${process.env.SECRET_PATH}/Master && npm install`).then(data => {
                                     console.log(chalk.green(`〚✔〛Successfuly Installed Modules For Master`));
                                     console.log(chalk.blue(`〚≡〛Syncing Dashboard, Please Wait...`));
-                                    console.log(chalk.green(`Dashboard is Ready To Be Used`));
+                                    console.log(chalk.green(`〚✔〛Dashboard is Ready To Be Used`));
                                     resolve(`Dashboard is Ready To Be Used`)
                                     Sync().then(data => {
                                         console.log(chalk.green(`〚✔〛Successfuly Synced Dashboard`));
@@ -188,7 +184,7 @@ LOGIN_REQUIRED_MESSAGE=Please Login To Complete This Action`;
     if (!fs.existsSync(`./server.bat`)) {
         console.log(chalk.blue(`〚≡〛Creating Server Startup File...`));
         fs.open(`./server.bat`, 'w', function (err, data) {
-            fs.writeFile(`./server.bat`, `pm2 start ${__dirname}/index.js`, (err) => {
+            fs.writeFile(`./server.bat`, `forever start ${__dirname}/index.js`, (err) => {
                 if (err) throw err;
                 console.log(chalk.green(`〚✔〛Successfuly Created Headless Server Startup File`));
             });

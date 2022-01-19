@@ -8,5 +8,6 @@ You may not use this panel/code for commercial purposes. Only for personal and e
 
 ## CUSTOMIZATION
 
-After intializing, You can edit `.env` ram usage, ssd usage, admin pass, admin user, etc. To change the web ui can configure the `tailwinds.config.js` and run `npm tailwinds` to rebuild the css.
+After intializing, You can edit `.env` to change ram usage, ssd usage, admin pass, admin user, etc. To change the web ui can configure the `tailwinds.config.js` and run `npm tailwinds` to rebuild the css.
+
 ![https://www.site-shot.com/cached_image/HYSjinYDEey_CQJCrBEAAg](https://www.site-shot.com/cached_image/HYSjinYDEey_CQJCrBEAAg)

@@ -147,11 +147,19 @@
                     <h3 class="text-gray-500 dark:text-gray-200 font-bold">Ram Usage(MBs)</h3>
                     <canvas class="float-right" id="ram_chart"></canvas>
                 </div>
-                <div class="mt-5">
+                <div class="mt-5 col-span-2 w-full hidden" id="ssd_tippy">
+                    <h3 class="text-gray-500 dark:text-gray-200 font-bold">SSD Usage(MBs)</h3>
+                    <div class="rounded-full hidden bg-gray-600 dark:bg-charade-700 w-full">
+<div class="dark:bg-perfume-800 bg-blue-500 py-2 rounded-full hidden" id="ssd_usage">
+
+</div>
+                    </div>
+                </div>
+                <div class="mt-5 hidden">
                     <h3 class="text-gray-500 dark:text-gray-200 font-bold">SSD Usage(MBs)</h3>
                     <canvas class="float-right" id="ssd_chart"></canvas>
                 </div>
-            </div>
+            </div> 
         </section>
     </section>
     <section class="flex flex-wrap justify-center w-full mt-8"></section>

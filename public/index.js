@@ -148,48 +148,81 @@ Name = Query.get("file");
 if (!Name) {
     Name = ""
 }
-fetch(`../dirs?path=${Name}`)
-    .then((response) => {
-        return response.json();
-    })
-    .then((myJson) => {
-        if (myJson.Success) {
-            if (document.getElementById("file_manager_table")) {
-                document.getElementById("file_manager_table").innerHTML = ""
-                myJson.Data.forEach(File => {
-                    document.getElementById("file_manager_table").innerHTML += `<tr class="divide dark:divide-perfume-800">
+function renderFileManager() {
+    fetch(`../dirs?path=${Name}`)
+        .then((response) => {
+            return response.json();
+        })
+        .then((myJson) => {
+            if (myJson.Success) {
+                if (document.getElementById("file_manager_table")) {
+                    document.getElementById("file_manager_table").innerHTML = ""
+                    myJson.Data.forEach(File => {
+                        document.getElementById("file_manager_table").innerHTML += `
+                        <tr class="divide dark:text-gray-200 dark:divide-perfume-800">
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900"><input file_name="${File.Name}" file_path="${Name}/${File.Name}" byte_size="${File.Stats.size}" created_ms="${File.Stats.birthtimeMs}" type="checkbox"></input></div>
+                                        <div class="text-sm dark:text-gray-200 text-gray-900">
+                                        <input file_name="${File.Name}" file_path="${Name}/${File.Name}" byte_size="${File.Stats.size}" created_ms="${File.Stats.birthtimeMs}" type="checkbox"></input>
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
                                             <div class="ml-4">
-                                                <div class="text-sm text-gray-500">
+                                                <div class="text-sm dark:text-gray-200 text-gray-500">
                                                     ${File.Name}
                                                 </div>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">${NumMat(File)}</div>
+                                        <div class="text-sm text-gray-900 dark:text-gray-200">${NumMat(File)}</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">${isFolder(File.isDirectory)}</div>
+                                        <div class="text-sm text-gray-900 dark:text-gray-200">${isFolder(File.isDirectory)}</div>
                                     </td>
                                     <td
                                         class="px-6 space-x-3 items-center py-4 whitespace-nowrap text-right text-sm font-medium">
                                         ${getViewsFolder(Name, File)}
                                         ${TypeToPen(Name, File)}
-                                        <button tip="Delete This File"
-                                            class="items-center rounded-md w-10 dark:bg-charade-600 h-10 bg-gray-50 shadow text-red-500 hover:text-gray-50 hover:bg-red-500">
+                                        <button tip="Rename This"
+                                            class="items-center rounded-md w-10 dark:bg-charade-600 h-10 bg-gray-50 shadow text-blue-500 hover:text-gray-50 hover:bg-red-500">
+                                            <i class="uil uil-label"></i>
+                                        </button>
+                                        <button tip="Delete This File" onclick='delete_file("${Query.get("file") || ""}/${File.Name}")'
+                                            class="items-center rounded-md w-10 dark:bg-charade-600 h-10 bg-gray-50 shadow text-red-500 hover:text-gray-50 hover:bg--500">
                                             <i class="uil uil-trash-alt"></i>
                                         </button>
                                     </td>
                                 </tr>`;
-                });
+                    });
+                }
             }
-        }
-    });
+        });
+} renderFileManager()
+
+function delete_file(path) {
+    toDelete = []
+    toDelete.push(path)
+    fetch('../delete_path', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            data: toDelete
+        }),
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.Success) {
+                Side_Success(data.Message)
+                renderFileManager()
+            } else {
+                Err(data.Message)
+            }
+        })
+        .catch((err) => console.log(err));
+}
 
 function TypeToPen(Name, Data) {
     if (Data.isDirectory == true) {
@@ -404,6 +437,23 @@ function renderSSDChart() {
 }
 renderSSDChart()
 
+
+function renderSSDBar() {
+    if (document.getElementById('ssd_usage')) {
+        fetch('../ssd_usage')
+            .then((response) => {
+                return response.json();
+            })
+            .then((Data) => {
+                console.log(Data.Data)
+                ssd_usage = document.getElementById("ssd_usage")
+                ssd_usage.style.width = `${Data.Data.Percent.Used}%`
+                document.getElementById("ssd_tippy").setAttribute("tip", `[${Math.floor(Data.Data.Used / 10000)}MB] ${Data.Data.Percent.Used}% of Storage Used`)
+                renderTips()
+            });
+    }
+}
+renderSSDBar()
 
 if (document.getElementById("display_log")) {
     if (Query.get("name")) {

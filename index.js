@@ -1,4 +1,4 @@
-const { getFiles, InsertBase, getDirectories, Sync, Initialize } = require("./loader");
+const { getFiles, InsertBase, getDirectories, Sync, Initialize, dirSize } = require("./loader");
 const fastFolderSize = require('fast-folder-size')
 const fileUpload = require("express-fileupload");
 const System = require('systeminformation');
@@ -104,7 +104,6 @@ app.post("/upload_file", (req, res) => {
         return;
     };
     Path = `./${process.env.SECRET_PATH}/${req.query.path}`.replace(/\/\//g, "/");
-    console.log(req.files);
     File = req.files.file
     File.mv(`${Path}/${req.files.file.name}`)
     res.end(JSON.stringify({
@@ -793,22 +792,25 @@ app.get("/ssd_usage", async (req, res) => {
             return;
         }
     }
-    FetchSSDUsage.then(data => {
-        UseSSD = 0;
-        data.forEach(app => {
-            UseSSD += app.Stats.Size;
-        });
+    fastFolderSize('.', (err, Storage) => {
+        if (err) {
+            throw err
+        }
+        Total = parseFloat(process.env.MAXIMUM_SSD_BYTES) / 1000;
+        Free = Total - (Storage / 1000);
         res.end(JSON.stringify({
             Success: true,
-            Message: `Successfuly Fetched SSD Usage`,
+            Message: "SSD Usage Fetched in KiloBytes",
             Data: {
-                TotalStorage: parseFloat(process.env.MAXIMUM_SSD_BYTES),
-                UsedStorage: UseSSD,
-                Apps: data
+                Total: Total,
+                Free: Free,
+                Used: (Storage / 100),
+                Percent: {
+                    Used: parseFloat((((Storage / 1000) * 100) / Total).toFixed(2)) || 0,
+                    Free: parseFloat(((Free * 100) / Total).toFixed(2)) || 0,
+                }
             }
         }))
-    }).catch(err => {
-        res.end(JSON.stringify(err))
     })
 })
 
@@ -911,7 +913,7 @@ app.post("/login", (req, res) => {
 Initialize.then(data => {
     if (process.env.PORT) {
         app.listen(process.env.PORT, () => {
-            console.log(chalk.cyan(`〚✇〛Dashboard Is Open On http://localhost:${process.env.PORT}`))
+            console.log(chalk.cyan(`〚✇〛Dashboard Is Open On http://localhost:${process.env.PORT}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`))
         })
     } else {
         console.log(chalk.red(`Valid Port Not Found`))
