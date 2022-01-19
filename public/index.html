@@ -17,16 +17,10 @@
     <div class="flex flex-wrap justify-center mt-8">
         <div class="py-2 w-11/12">
             <div class="w-full space-x-3">
-                <button tip="Recently Created Apps Not Showing? Sync Now!"
-                    class="rounded-md py-3 px-8 ml-3 float-right mb-3 dark:bg-charade-700 bg-gray-600 text-white"
-                    onclick="sync_apps()">Sync
+                <button tip="Recently Created Apps Not Showing? Sync Now!" class="rounded-md py-3 px-8 ml-3 float-right mb-3 dark:bg-charade-700 bg-gray-600 text-white" onclick="sync_apps()">Sync
                     Panel</button>
-                <button tip="Manage Your Files & Folders From The File Manager"
-                    class="rounded-md py-3 px-8 float-right mb-3 dark:bg-charade-700 text-white bg-blue-500"
-                    onclick="toggle_theme()">Toggle Theme</button>
-                <button tip="Manage Your Files & Folders From The File Manager"
-                    class="rounded-md py-3 px-8 float-right mb-3 dark:bg-perfume-700 text-white bg-blue-500"
-                    onclick="file_manager()">File
+                <button tip="Manage Your Files & Folders From The File Manager" class="rounded-md py-3 px-8 float-right mb-3 dark:bg-charade-700 text-white bg-blue-500" onclick="toggle_theme()">Toggle Theme</button>
+                <button tip="Manage Your Files & Folders From The File Manager" class="rounded-md py-3 px-8 float-right mb-3 dark:bg-perfume-700 text-white bg-blue-500" onclick="file_manager()">File
                     Manager</button>
             </div>
             <div class="border-b flex-wrap dark:border-perfume-500 justify-center border-gray-200 rounded-md">
@@ -49,8 +43,7 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y dark:divide-perfume-800 gray-200 dark:bg-charade-700 rounded-lg"
-                        id="apps_table">
+                    <tbody class="bg-white divide-y dark:divide-perfume-800 gray-200 dark:bg-charade-700 rounded-lg" id="apps_table">
                     </tbody>
                 </table>
             </div>
@@ -60,43 +53,35 @@
 
     <section class="flex flex-wrap justify-center w-full mt-8">
         <section class="flex flex-wrap grid-cols-1 grid gap-8 lg:grid-cols-2 w-11/12 ">
-            <div
-                class="dark:bg-charade-700 w-full space-y-4 text-gray-600 rounded-md dark:text-gray-300 shadow py-5 px-5">
+            <div class="dark:bg-charade-700 w-full space-y-4 text-gray-600 rounded-md dark:text-gray-300 shadow py-5 px-5">
                 <h1 class="text-gray-600 text-xl font-semibold dark:text-gray-300">Create Application</h1>
                 <div class="dark:text-gray-300">
                     <h3>Application Name</h3>
-                    <input placeholder="SomethingCool" type="text" id="create_app_name"
-                        class="py-3 px-3 bg-gray-100 dark:bg-charade-600 dark:text-gray-300 w-full text-gray-500 shadow rounded-md">
+                    <input placeholder="SomethingCool" type="text" id="create_app_name" class="py-3 px-3 bg-gray-100 dark:bg-charade-600 dark:text-gray-300 w-full text-gray-500 shadow rounded-md">
                 </div>
                 <div>
                     <h3>Main Entry</h3>
-                    <input placeholder="Index.js" type="text" id="create_app_entry"
-                        class="py-3 px-3 dark:bg-charade-600 dark:text-gray-300 bg-gray-100 w-full text-gray-500 shadow rounded-md">
+                    <input placeholder="Index.js" type="text" id="create_app_entry" class="py-3 px-3 dark:bg-charade-600 dark:text-gray-300 bg-gray-100 w-full text-gray-500 shadow rounded-md">
                 </div>
                 <div>
-                    <button class="rounded-md dark:bg-charade-600 bg-blue-500 text-white py-3 w-full lg:w-auto px-10"
-                        onclick="create_app()">Create</button>
+                    <button class="rounded-md dark:bg-charade-600 bg-blue-500 text-white py-3 w-full lg:w-auto px-10" onclick="create_app()">Create</button>
                 </div>
             </div>
-            <div
-                class="w-full dark:bg-charade-700 space-y-4 dark:text-gray-300 text-gray-600 rounded-md shadow py-5 px-5">
+            <div class="w-full dark:bg-charade-700 space-y-4 dark:text-gray-300 text-gray-600 rounded-md shadow py-5 px-5">
                 <h1 class="text-gray-600 text-xl font-semibold dark:text-gray-200">Settings & Management</h1>
                 <div>
                     <h2>Selected Application</h2>
-                    <select name="" id="delete_logs_app_box"
-                        class="rounded-md bg-gray-100 dark:bg-charade-600 dark:text-gray-300 py-3 px-3 w-full shadow"></select>
+                    <select name="" id="delete_logs_app_box" class="rounded-md bg-gray-100 dark:bg-charade-600 dark:text-gray-300 py-3 px-3 w-full shadow"></select>
                 </div>
                 <div class="space-x-3">
-                    <button class="rounded-md bg-gray-600 dark:bg-charade-600 text-white py-3 w-full lg:w-auto px-10"
-                        onclick="delete_logs()">Delete Logs</button>
-                    <button class="rounded-md dark:bg-simmon-500 bg-red-500 text-white py-3 w-full lg:w-auto px-10"
-                        onclick="delete_error_logs()">Delete
+                    <button class="rounded-md bg-gray-600 dark:bg-charade-600 text-white py-3 w-full lg:w-auto px-10" onclick="delete_logs()">Delete Logs</button>
+                    <button class="rounded-md dark:bg-simmon-500 bg-red-500 text-white py-3 w-full lg:w-auto px-10" onclick="delete_error_logs()">Delete
                         Error Logs</button>
                 </div>
             </div>
         </section>
     </section>
-    <section class="flex flex-wrap justify-center w-full mt-8  dark:text-gray-300">
+    <section class="flex flex-wrap justify-center w-full mt-8 dark:text-gray-300">
         <section class="flex flex-wrap grid-cols-1 lg:grid-cols-2 grid gap-8 w-11/12 ">
             <div class="w-full">
                 <div class=" dark:text-gray-300 w-full text-gray-600 rounded-md shadow py-5 px-5 dark:bg-charade-700">
@@ -104,62 +89,53 @@
                     <div>
                         <div>
                             <h3>Select Application</h3>
-                            <select name="" id="manage_apps_select"
-                                class="rounded-md dark:bg-charade-600 bg-gray-100 py-3 px-3 w-full shadow"></select>
+                            <select name="" id="manage_apps_select" class="rounded-md dark:bg-charade-600 bg-gray-100 py-3 px-3 w-full shadow"></select>
                         </div>
                     </div>
                     <div class="space-y-3 dark:text-gray-300 dark:text-gray-300 md:space-y-3 dark:bg-charade-700">
-                        <button
-                            class="rounded-md bg-blue-500 dark:bg-perfume-800 text-white py-3 w-full lg:w-auto px-10">Open</button>
-                        <button tip="Install All Required Modules" onclick="npm_install()"
-                            class="rounded-md bg-gray-600 dark:bg-charade-600 text-white py-3 w-full lg:w-auto px-10">NPM
+                        <button class="rounded-md bg-blue-500 dark:bg-perfume-800 text-white py-3 w-full lg:w-auto px-10">Open</button>
+                        <button tip="Install All Required Modules" onclick="npm_install()" class="rounded-md bg-gray-600 dark:bg-charade-600 text-white py-3 w-full lg:w-auto px-10">NPM
                             Install</button>
                     </div>
                     <div class="mt-5  dark:text-gray-300">
                         <div>
                             <h3>Update Main Entry</h3>
-                            <input placeholder="Index.js" type="text" id="create_app_entry"
-                                class="py-3 px-3 bg-gray-100 dark:bg-charade-600 w-full text-gray-500 dark:text-gray-300 shadow rounded-md">
+                            <input placeholder="Index.js" type="text" id="create_app_entry" class="py-3 px-3 bg-gray-100 dark:bg-charade-600 w-full text-gray-500 dark:text-gray-300 shadow rounded-md">
                         </div>
-                        <button
-                            class="rounded-md bg-blue-500 mt-3 dark:bg-perfume-800 text-white py-3 w-full lg:w-auto px-10">Update</button>
+                        <button class="rounded-md bg-blue-500 mt-3 dark:bg-perfume-800 text-white py-3 w-full lg:w-auto px-10">Update</button>
                     </div>
                 </div>
                 <div class="space-y-4 text-gray-600 mt-8 rounded-md py-5 px-5 dark:bg-charade-700 shadow">
                     <h1 class="text-gray-600 dark:text-gray-300 text-xl font-semibold">Delete Application</h1>
                     <div class=" dark:text-gray-300">
                         <h3>Select Application</h3>
-                        <select name="" id="delete_app_box"
-                            class="rounded-md bg-gray-100 py-3 dark:bg-charade-600 px-3 w-full shadow"></select>
+                        <select name="" id="delete_app_box" class="rounded-md bg-gray-100 py-3 dark:bg-charade-600 px-3 w-full shadow"></select>
                     </div>
                     <div>
-                        <button onclick="delete_app()"
-                            class="rounded-md bg-red-500 text-white py-3 w-full lg:w-auto px-10">Delete</button>
+                        <button onclick="delete_app()" class="rounded-md bg-red-500 text-white py-3 w-full lg:w-auto px-10">Delete</button>
                     </div>
                 </div>
             </div>
-            <div class="w-full text-center flex flex-wrap dark:text-gray-200">
-                <div class="">
+            <div class="w-full flex flex-wrap dark:text-gray-200">
+                <div class="w-full">
+                    <h3 class="text-gray-500 dark:text-gray-200 font-bold">Stats & Information</h3>
+                    <div class="w-full flex grid-cols-2 gap-5 grid bg-white shadow flex-wrap dark:bg-charade-700 dark:text-gray-300 text-gray-700 px-3 rounded-md py-3">
+                        <h1 class=""><i class="uil uil-shield-exclamation"></i> Path: <span id="panel_path_display">0</span></h1>
+                        <h1 class="text-blue-500 dark:text-perfume-800"><i class="uil uil-shield-exclamation"></i> Server: <a id="server_url_display">0</a></h1>
+                        <h1 class=""><i class="uil uil-info-circle"></i> Total Bots: <span id="total_bots_count">0</span></h1>
+                        <h1 class=""><i class="uil uil-info-circle"></i> Storage(MBs): <span id="total_storage_display">0</span></h1>
+                        <h1 class=""><i class="uil uil-info-circle"></i> Ram(MBs): <span id="total_ram_display">0</span></h1>
+                    </div>
+                </div>
+                <div class="text-center">
                     <h3 class="text-gray-500 dark:text-gray-200 font-bold">CPU Usage(%)</h3>
                     <canvas class="float-right" id="cpu_chart"></canvas>
                 </div>
-                <div class="">
+                <div class="text-center">
                     <h3 class="text-gray-500 dark:text-gray-200 font-bold">Ram Usage(MBs)</h3>
                     <canvas class="float-right" id="ram_chart"></canvas>
                 </div>
-                <div class="mt-5 col-span-2 w-full hidden" id="ssd_tippy">
-                    <h3 class="text-gray-500 dark:text-gray-200 font-bold">SSD Usage(MBs)</h3>
-                    <div class="rounded-full hidden bg-gray-600 dark:bg-charade-700 w-full">
-<div class="dark:bg-perfume-800 bg-blue-500 py-2 rounded-full hidden" id="ssd_usage">
-
-</div>
-                    </div>
-                </div>
-                <div class="mt-5 hidden">
-                    <h3 class="text-gray-500 dark:text-gray-200 font-bold">SSD Usage(MBs)</h3>
-                    <canvas class="float-right" id="ssd_chart"></canvas>
-                </div>
-            </div> 
+            </div>
         </section>
     </section>
     <section class="flex flex-wrap justify-center w-full mt-8"></section>

@@ -1,6 +1,6 @@
 {
   "name": "basilisk",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Node.js Discord Bot Dashboard & Monitor",
   "main": "index.js",
   "scripts": {

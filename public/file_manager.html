@@ -17,41 +17,32 @@
     <div class="flex flex-col">
         <div class="flex flex-wrap justify-center overflow-x-auto mt-8">
             <div class="py-2 w-11/12 align-middle inline-block mt-1">
-                <button class="rounded-md py-3 px-8 bg-gray-600 dark:bg-charade-700 text-white"
-                    onclick="create_folder()">Create
+                <button class="rounded-md py-3 px-8 bg-gray-600 dark:bg-charade-700 text-white" onclick="create_folder()">Create
                     Folder</button>
-                <button class="rounded-md py-3 px-8 bg-gray-600 dark:bg-charade-700 text-white"
-                    onclick="create_file()">Create File</button>
-                <button class="rounded-md py-3 ml-1 dark:bg-simmon-500 px-8 bg-red-500 mt-3 text-white"
-                    onclick='delete_selected()'>Delete Selected</button>
+                <button class="rounded-md py-3 px-8 bg-gray-600 dark:bg-charade-700 text-white" onclick="create_file()">Create File</button>
+                <button class="rounded-md py-3 ml-1 dark:bg-simmon-500 px-8 bg-red-500 mt-3 text-white" onclick='delete_selected()'>Delete Selected</button>
                 <div class="shadow overflow-hidden sm:rounded-lg mt-3">
                     <table class="min-w-full dark:divide-perfume-800 divide-y divide-gray-200">
                         <thead class="bg-gray-50 dark:bg-charade-700">
                             <tr class="items-center">
-                                <th scope="col"
-                                    class="px-6 items-center py-3 text-left text-xs dark:text-gray-300 font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col" class="px-6 items-center py-3 text-left text-xs dark:text-gray-300 font-medium text-gray-500 uppercase tracking-wider">
                                     <input type="checkbox" onclick="select_all_files()" id="select_all_files"></input>
                                     Select
                                 </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium dark:text-gray-300 text-gray-500 uppercase tracking-wider">
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium dark:text-gray-300 text-gray-500 uppercase tracking-wider">
                                     Name
                                 </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium dark:text-gray-300 text-gray-500 uppercase tracking-wider">
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium dark:text-gray-300 text-gray-500 uppercase tracking-wider">
                                     Size
                                 </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium dark:text-gray-300 text-gray-500 uppercase tracking-wider">
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium dark:text-gray-300 text-gray-500 uppercase tracking-wider">
                                     Type
                                 </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium dark:text-gray-300 text-gray-500 uppercase tracking-wider">
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium dark:text-gray-300 text-gray-500 uppercase tracking-wider">
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white dark:divide-perfume-800 divide-y divide-gray-200 dark:bg-charade-700"
-                            id="file_manager_table">
+                        <tbody class="bg-white dark:divide-perfume-800 divide-y divide-gray-200 dark:bg-charade-700" id="file_manager_table">
                         </tbody>
                     </table>
                 </div>
@@ -62,38 +53,27 @@
         <div class="flex flex-wrap justify-center overflow-x-auto mt-8 mb-10">
             <div class="py-2 w-11/12 align-middle inline-block">
                 <main class="container shadow px-3 py-3 rounded-lg">
-                    <article aria-label="File Upload Modal"
-                        class="relative h-full flex flex-col bg-white dark:bg-charade-700 rounded-md"
-                        ondrop="dropHandler(event);" ondragover="dragOverHandler(event);"
-                        ondragleave="dragLeaveHandler(event);" ondragenter="dragEnterHandler(event);">
+                    <article aria-label="File Upload Modal" class="relative h-full flex flex-col bg-white dark:bg-charade-700 rounded-md" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);" ondragleave="dragLeaveHandler(event);" ondragenter="dragEnterHandler(event);">
                         <section class="h-full overflow-auto p-8 w-full h-full flex flex-col">
-                            <header
-                                class="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
-                                <p
-                                    class="mb-3 font-semibold text-gray-700 dark:text-gray-300 flex flex-wrap justify-center">
+                            <header class="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
+                                <p class="mb-3 font-semibold text-gray-700 dark:text-gray-300 flex flex-wrap justify-center">
                                     <span>Drag
                                         and drop your</span>&nbsp;<span>files anywhere or</span>
                                 </p>
-                                <input id="hidden-input" type="file" multiple class="hidden" /> <button id="button"
-                                    class="bg-blue-500 dark:bg-perfume-800 dark:text-white rounded-md text-white font-bold uppercase px-8 py-3 focus:outline-none">
+                                <input id="hidden-input" type="file" multiple class="hidden" /> <button id="button" class="bg-blue-500 dark:bg-perfume-800 dark:text-white rounded-md text-white font-bold uppercase px-8 py-3 focus:outline-none">
                                     Select </button>
                             </header>
                             <h1 class="pt-8 pb-3 uppercase sm:text-xl text-gray-700 font-bold dark:text-gray-300">
                                 Upload List </h1>
                             <ul id="gallery" class="flex flex-1 flex-wrap -m-1">
-                                <li id="empty"
-                                    class="h-full w-full text-center flex flex-col items-center justify-center items-center">
-                                    <img class="mx-auto w-32"
-                                        src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
-                                        alt="no data" /> <span class="text-small text-gray-500">No files selected</span>
+                                <li id="empty" class="h-full w-full text-center flex flex-col items-center justify-center items-center">
+                                    <img class="mx-auto w-32" src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png" alt="no data" /> <span class="text-small text-gray-500">No files selected</span>
                                 </li>
                             </ul>
                         </section>
-                        <footer class="flex space-x-3 justify-end px-8 pb-8 pt-4"> <button id="submit"
-                                class="bg-gray-600 dark:bg-perfume-800 rounded-md text-white uppercase px-8 py-3 focus:outline-none">
+                        <footer class="flex space-x-3 justify-end px-8 pb-8 pt-4"> <button id="submit" class="bg-gray-600 dark:bg-perfume-800 rounded-md text-white uppercase px-8 py-3 focus:outline-none">
                                 Upload
-                                now </button> <button id="cancel"
-                                class="bg-red-500 rounded-md text-white uppercase px-8 py-3 focus:outline-none"> Cancel
+                                now </button> <button id="cancel" class="bg-red-500 rounded-md text-white uppercase px-8 py-3 focus:outline-none"> Cancel
                             </button>
                         </footer>
                     </article>

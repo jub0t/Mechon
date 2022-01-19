@@ -1,5 +1,7 @@
-node_moduless
-.env
-server.bat
 package-lock.json
+node_modules
+node_module
+server.bat
+.gitignore
 OneProperly
+.env

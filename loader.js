@@ -76,7 +76,7 @@ async function Start(Folder) {
                 if (err) { console.error(err); }
                 Package = JSON.parse(data);
                 pm2.start({
-                    name: Folder,
+                    name: `${process.env.SECRET_PATH.toUpperCase()}_${Folder}`,
                     detached: true,
                     min_uptime: 5000,
                     watch_delay: 5000,

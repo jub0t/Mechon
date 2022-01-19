@@ -1,13 +1,13 @@
 {
-  "name": "basetemplate",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {},
-  "keywords": [],
-  "license": "MIT",
-  "author": "Rigby#6654 From Zephyr",
-  "dependencies": {
-    "discord.js": "^13.5.1"
-  }
+    "name": "basetemplate",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {},
+    "keywords": [],
+    "license": "MIT",
+    "author": "Rigby#6654 From Zephyr",
+    "dependencies": {
+        "discord.js": "^13.5.1"
+    }
 }
