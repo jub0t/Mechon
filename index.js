@@ -4,10 +4,9 @@ const {
   getDirectories,
   Sync,
   Initialize,
-  dirSize,
 } = require("./loader");
 const fastFolderSize = require("fast-folder-size");
-const fileUpload = require("express-fileupload");
+const Uploader = require("express-fileupload");
 const System = require("systeminformation");
 const Terminal = require("system-commands");
 const session = require("express-session");
@@ -33,7 +32,7 @@ if (process.env.SECRET_PATH) {
 }
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ extended: true }));
-app.use(fileUpload());
+app.use(Uploader());
 
 app.get("/start/:name", (req, res) => {
   if (process.env.LOGIN_REQUIRED == "true") {
@@ -76,12 +75,12 @@ app.get("/start/:name", (req, res) => {
           },
           function (err, apps) {
             if (err) {
-              JSON.stringify({ Success: true, Message: err });
+              JSON.stringify({ Success: false, Message: err });
             }
             res.end(
               JSON.stringify({
                 Success: true,
-                Message: `Application Has Successfuly Started`,
+                Message: `${req.params.name} Started`,
               })
             );
           }
@@ -100,6 +99,123 @@ app.get("/start/:name", (req, res) => {
       JSON.stringify({
         Success: false,
         Message: `Application is Broken, Please Delete "${req.params.name}" From File Manager & Re-create The Application`,
+      })
+    );
+  }
+});
+
+app.post("/install_package", (req, res) => {
+  if (process.env.LOGIN_REQUIRED == "true") {
+    if (!req.session.username) {
+      res.end(
+        JSON.stringify({
+          Success: false,
+          Message: process.env.LOGIN_REQUIRED_MESSAGE,
+        })
+      );
+      return;
+    }
+  }
+  Terminal(
+    `cd ./${process.env.SECRET_PATH}/${req.body.bot_app} && npm install ${req.body.package_name}`
+  )
+    .then((data) => {
+      res.end(
+        JSON.stringify({
+          Success: true,
+          Message: `Successfuly Installed ${req.body.package_name}`,
+          Data: data,
+        })
+      );
+    })
+    .catch((err) => {
+      res.end(
+        JSON.stringify({
+          Success: false,
+          Message: `An Error Occured`,
+          Error: err,
+        })
+      );
+    });
+});
+
+app.get("/generate_tailwinds", (req, res) => {
+  if (process.env.LOGIN_REQUIRED == "true") {
+    if (!req.session.username) {
+      res.end(
+        JSON.stringify({
+          Success: false,
+          Message: process.env.LOGIN_REQUIRED_MESSAGE,
+        })
+      );
+      return;
+    }
+  }
+  Terminal(`npm run generate_tailwinds`)
+    .then((data) => {
+      res.end(
+        JSON.stringify({
+          Success: true,
+          Message: "Successfuly Generated Tailwinds",
+          Data: data,
+        })
+      );
+    })
+    .catch((err) => {
+      res.end(
+        JSON.stringify({
+          Success: false,
+          Message: `An Error Occured`,
+          Error: err,
+        })
+      );
+    });
+});
+
+app.get("/update_tailwinds", (req, res) => {
+  if (req.body.data) {
+    if (fs.existsSync("./tailwind.config.js")) {
+      try {
+        Data = JSON.parse(req.body.data);
+        fs.write("./tailwind.config.js", JSON.stringify(Data), (err, data) => {
+          if (err) {
+            res.end(
+              JSON.stringify({
+                Success: false,
+                Message: `Unable To Update Tailwinds Config`,
+                Error: err,
+              })
+            );
+            return;
+          }
+          res.end(
+            JSON.stringify({
+              Success: false,
+              Message: `Tailwinds Config Updated`,
+            })
+          );
+        });
+      } catch {
+        res.end(
+          JSON.stringify({
+            Success: false,
+            Message: `Could Not Parse Data To Json`,
+          })
+        );
+      }
+    } else {
+      res.end(
+        JSON.stringify({
+          Success: false,
+          Message: `Tailwinds Config File is Missing`,
+        })
+      );
+    }
+  } else {
+    res.end(
+      JSON.stringify({
+        Success: false,
+        Message: `Confige Data is Missing`,
       })
     );
   }
@@ -126,7 +242,7 @@ app.get("/stop/:name", (req, res) => {
       res.end(
         JSON.stringify({
           Success: true,
-          Message: "Application Has Been Stopped",
+          Message: `${req.params.name} Stopped`,
         })
       );
     }
@@ -167,6 +283,48 @@ app.get("/panel_stats", (req, res) => {
   });
 });
 
+app.post("/rename_dir", (req, res) => {
+  if (process.env.LOGIN_REQUIRED == "true") {
+    if (!req.session.username) {
+      res.end(
+        JSON.stringify({
+          Success: false,
+          Message: process.env.LOGIN_REQUIRED_MESSAGE,
+        })
+      );
+      return;
+    }
+  }
+  ToRename = req.body.ToRename;
+  NewName = req.body.NewName;
+  const Path = `./${process.env.SECRET_PATH}/${ToRename}`
+    .replace(/\\/g, "/")
+    .toString()
+    .replace(/\/\//g, "/");
+  const NewPath = `./${process.env.SECRET_PATH}/${NewName}`
+    .replace(/\\/g, "/")
+    .toString()
+    .replace(/\/\//g, "/");
+  fs.rename(Path, NewPath, (err) => {
+    if (err) {
+      res.end(
+        JSON.stringify({
+          Success: false,
+          Message: `Unable To Rename`,
+          Error: err,
+        })
+      );
+      return;
+    }
+    res.end(
+      JSON.stringify({
+        Success: true,
+        Message: `Successfuly Renamed`,
+      })
+    );
+  });
+});
+
 app.post("/upload_file", (req, res) => {
   if (process.env.LOGIN_REQUIRED == "true") {
     if (!req.session.username) {
@@ -182,7 +340,7 @@ app.post("/upload_file", (req, res) => {
   if (!req.files) {
     res.end(
       JSON.stringify({
-        Success: true,
+        Success: false,
         Message: `Could Not Find Any File To Upload`,
       })
     );
@@ -533,6 +691,21 @@ app.get("/file_content", (req, res) => {
       return;
     }
   }
+  Blocked = false;
+  Blacklist.forEach((Content) => {
+    if (req.query.path.toString().includes(Content)) {
+      Blocked = true;
+    }
+  });
+  if (Blocked) {
+    res.end(
+      JSON.stringify({
+        Success: false,
+        Message: "Access Denied",
+      })
+    );
+    return;
+  }
   Path = `./${process.env.SECRET_PATH}/${req.query.path}`;
   if (fs.existsSync(Path)) {
     if (fs.lstatSync(Path).isDirectory()) {
@@ -710,6 +883,64 @@ app.post("/update_file", (req, res) => {
   }
 });
 
+app.post("/update_main", (req, res) => {
+  if (req.body.new_main) {
+    if (req.body.name) {
+      if (!req.body.new_main.toString().endsWith(".js")) {
+        req.body.new_main = `${req.body.new_main}.js`;
+      }
+      Path = `./${process.env.SECRET_PATH}/${req.body.name}/package.json`;
+      console.log(Path);
+      if (fs.existsSync(Path)) {
+        fs.readFile(Path, "utf8", (err, data) => {
+          Data = JSON.parse(data);
+          Data.main = req.body.new_main;
+          if (
+            !fs.existsSync(
+              `./${process.env.SECRET_PATH}/${req.body.name}/${req.body.new_main}`
+            )
+          ) {
+            fs.open(
+              `./${process.env.SECRET_PATH}/${req.body.name}/${req.body.new_main}`,
+              function (err, data) {}
+            );
+          }
+          fs.writeFile(Path, JSON.stringify(Data, null, 4), (err, data) => {
+            res.end(
+              JSON.stringify({
+                Success: true,
+                Message: "Successfuly Updated",
+                data: data,
+              })
+            );
+          });
+        });
+      } else {
+        res.end(
+          JSON.stringify({
+            Success: false,
+            Message: "Bot Does Not Exist",
+          })
+        );
+      }
+    } else {
+      res.end(
+        JSON.stringify({
+          Success: false,
+          Message: "No Bot Name Given/Found",
+        })
+      );
+    }
+  } else {
+    res.end(
+      JSON.stringify({
+        Success: false,
+        Message: "New Main Entry Not Found",
+      })
+    );
+  }
+});
+
 app.post("/create_file", (req, res) => {
   if (req.body.path) {
     Path = `./${process.env.SECRET_PATH}/${req.body.path}`;
@@ -779,7 +1010,14 @@ app.post("/delete_path", (req, res) => {
     for (let index = 0; index < Data.length; index++) {
       let NewObject = Data[index];
       let ObjectPath = `./${process.env.SECRET_PATH}/${NewObject}`;
-
+      if (ObjectPath == `./${process.env.SECRET_PATH}/logs`) {
+        res.end(
+          JSON.stringify({
+            Success: false,
+            Message: "Access Denied By Server.",
+          })
+        );
+      }
       try {
         if (fs.lstatSync(ObjectPath).isDirectory()) {
           try {
@@ -940,7 +1178,7 @@ app.post("/delete_app", (req, res) => {
     res.end(
       JSON.stringify({
         Success: false,
-        Message: "No Application Name Given",
+        Message: "No Name Given",
       })
     );
   }
@@ -984,7 +1222,7 @@ app.get("/npm_install/:name", (req, res) => {
         res.end(
           JSON.stringify({
             Success: false,
-            Message: "No Application Name Found",
+            Message: "No Bot Name Found",
           })
         );
       }
@@ -1144,6 +1382,9 @@ app.get("/edit", (req, res) => {
 app.get("/tailwinds", (req, res) => {
   res.sendFile(`./public/tailwinds.css`, { root: __dirname });
 });
+app.get("/favicon.png", (req, res) => {
+  res.sendFile(`./public/favicon.png`, { root: __dirname });
+});
 app.get("/file_manager", (req, res) => {
   res.sendFile(`./public/file_manager.html`, { root: __dirname });
 });
@@ -1198,8 +1439,12 @@ app.get("/reload_apps", (req, res) => {
 
 app.get("/", (req, res) => {
   if (process.env.LOGIN_REQUIRED == "true") {
-    if (req.session.username) {
-      res.sendFile(`./public/index.html`, { root: __dirname });
+    if (req.session) {
+      if (req.session.username) {
+        res.sendFile(`./public/index.html`, { root: __dirname });
+      } else {
+        res.sendFile(`./public/login.html`, { root: __dirname });
+      }
     } else {
       res.sendFile(`./public/login.html`, { root: __dirname });
     }
@@ -1255,7 +1500,7 @@ Initialize.then((data) => {
     app.listen(process.env.PORT, () => {
       console.log(
         chalk.cyan(
-          `〚✇〛Dashboard Is Open On http://localhost:${process.env.PORT}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`
+          `〚✇〛Dashboard Is Open On http://localhost:${process.env.PORT}`
         )
       );
     });

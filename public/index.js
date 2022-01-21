@@ -8,6 +8,28 @@ AppsColor = [
 ];
 Query = new URLSearchParams(window.location.search);
 
+try {
+  const paths = Query.get("file").split("/");
+  paths.forEach((path) => {
+    if (path == "" || path == " " || path == null) {
+      return;
+    }
+    loaction = `${Query.get("file").split(path)[0]}/${path}`
+      .replace(/\\/g, "/")
+      .toString()
+      .replace(/\/\//g, "/");
+    document.getElementById("bread_crumb").innerHTML += `
+    		<li class="flex items-center space-x-2">
+          <i class="uil uil-angle-right"></i>
+			<a href="file_manager?file=${loaction}" class="flex items-center px-1 capitalize hover:underline">${path}</a>
+		</li>`;
+  });
+} catch {
+  if (document.getElementById("bread_crumb")) {
+    document.getElementById("bread_crumb").remove();
+  }
+}
+
 if (
   localStorage.theme === "dark" ||
   (!("theme" in localStorage) &&
@@ -43,14 +65,40 @@ if (document.getElementById("content")) {
       return response.json();
     })
     .then((myJson) => {
-      if (myJson.Success) {
+      if (myJson.Success == true) {
+        Side_Success(myJson.Message);
         document.getElementById("content").innerHTML = myJson.Data.Content;
         Parts = Query.get("file").toString().split("/");
         Extension = Parts[Parts.length - 1].toString().split(".")[1];
         document.getElementById("content").className = `language-${Extension}`;
         Prism.highlightAll();
+      } else {
+        Side_Err(myJson.Message);
       }
     });
+}
+
+function update_main() {
+  Name = document.getElementById("update_app_entry").value;
+  fetch("../update_main", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: document.getElementById("manage_apps_select").value,
+      new_main: Name,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      document.getElementById("update_app_entry").value = null;
+      if (data.Success == true) {
+        Side_Success(data.Message);
+        renderDashboard();
+      } else {
+        Side_Err(data.Message);
+      }
+    })
+    .catch((err) => console.log(err));
 }
 
 function saveFile() {
@@ -70,6 +118,7 @@ function saveFile() {
         Prism.highlightAll();
         if (data.Success == true) {
           Side_Success(data.Message);
+          Prism.highlightAll();
         } else {
           Side_Err(data.Message);
         }
@@ -207,14 +256,16 @@ function renderFileManager() {
                                         class="px-6 space-x-3 items-center py-4 whitespace-nowrap text-right text-sm font-medium">
                                         ${getViewsFolder(Name, File)}
                                         ${TypeToPen(Name, File)}
-                                        <button tip="Rename This"
-                                            class="items-center rounded-md w-10 dark:bg-charade-600 h-10 bg-gray-50 shadow text-blue-500 hover:text-gray-50 hover:bg-red-500">
+                                        <button tip="Rename This" onclick="rename_dir('${Name}/${
+              File.Name
+            }', '${File.Name}', '${File}')"
+                                            class="items-center rounded-md w-10 dark:hover:text-gray-300 dark:bg-charade-600 h-10 bg-gray-50 shadow text-perfume-800 dark:text-perfume-800 hover:text-gray-300 dark:hover:bg-perfume-800 hover:bg-perfume-800">
                                             <i class="uil uil-label"></i>
                                         </button>
                                         <button tip="Delete This File" onclick='delete_file("${
                                           Query.get("file") || ""
                                         }/${File.Name}")'
-                                            class="items-center rounded-md w-10 dark:bg-charade-600 h-10 bg-gray-50 shadow text-red-500 hover:text-gray-50 hover:bg--500">
+                                            class="items-center rounded-md w-10 dark:bg-charade-600 h-10 bg-gray-50 shadow text-red-500 hover:text-gray-50 hover:bg-red-500">
                                             <i class="uil uil-trash-alt"></i>
                                         </button>
                                     </td>
@@ -242,7 +293,9 @@ function delete_file(path) {
     .then((data) => {
       if (data.Success) {
         Side_Success(data.Message);
-        renderFileManager();
+        setTimeout(() => {
+          renderFileManager();
+        }, 200);
       } else {
         Err(data.Message);
       }
@@ -255,7 +308,7 @@ function TypeToPen(Name, Data) {
     return "";
   } else {
     return `<button tip="Edit This File" onclick='window.open("../edit?file=${Name}/${Data.Name}")'
-                                            class="items-center rounded-md w-10 h-10 bg-gray-50 shadow dark:bg-charade-600 text-blue-500 hover:text-gray-50 hover:bg-blue-500">
+                                            class="items-center rounded-md w-10 h-10 bg-gray-50 shadow dark:bg-charade-600 text-blue-500 hover:text-gray-50 dark:hover:bg-blue-500 hover:bg-blue-500">
                                             <i class="uil uil-pen"></i>
                                         </button>`;
   }
@@ -282,24 +335,37 @@ function arraySum(a) {
 
 function delete_app() {
   if (document.getElementById("delete_app_box")) {
-    fetch("../delete_app", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: document.getElementById("delete_app_box").value,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.Success) {
-          Success(data.Message);
-        } else {
-          Err(data.Message);
-        }
-      })
-      .catch((err) => console.log(err));
+    Swal.fire({
+      icon: "warning",
+      title: `Do You Really Want To Delete ${
+        document.getElementById("delete_app_box").value
+      }?`,
+      showConfirmButton: true,
+      showCancelButton: true,
+      ConfirmButtonText: "Yes",
+      CacnelButtonText: "Never Mind",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch("../delete_app", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: document.getElementById("delete_app_box").value,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.Success) {
+              Success(data.Message);
+            } else {
+              Err(data.Message);
+            }
+          })
+          .catch((err) => console.log(err));
+      }
+    });
   } else {
     Side_Err("Could Not Find Application Data.");
   }
@@ -314,8 +380,6 @@ async function renderDashboard() {
         return response.json();
       })
       .then((pData) => {
-        document.getElementById("total_bots_count").innerHTML =
-          pData.Data.Dirs.length;
         document.getElementById(
           "panel_path_display"
         ).innerHTML = `${pData.Data.Env.Path}/${pData.Data.Env.SecretPath}`;
@@ -331,6 +395,7 @@ async function renderDashboard() {
         document.getElementById("total_ram_display").innerHTML = `${NumComma(
           pData.Data.Env.MaxRam / 1000
         )}`;
+        TotalRam = `${NumComma(pData.Data.Env.MaxRam / 1000)}`;
       });
     fetch("../list-apps")
       .then((response) => {
@@ -348,13 +413,19 @@ async function renderDashboard() {
         delete_app_box.innerHTML = null;
         manage_apps_select.innerHTML = null;
         delete_logs_app_box.innerHTML = null;
+        if (Apps.length == 0) {
+          if (document.getElementById("charts_display")) {
+            document.getElementById("charts_display").innerHTML = null;
+          }
+          return;
+        }
+        document.getElementById("total_bots_count").innerHTML = Apps.length;
         Apps.forEach((Process) => {
           AppsRam.push(parseInt((Process.Memory / 1000000).toFixed(2)));
           AppsNames.push(Process.App.Name);
           AppsCPU.push(Process.CPU);
           if (delete_app_box) {
             delete_app_box.value = null;
-            console.log(StatusToColor(Process.App.Status));
             AppName = `${Process.App.Name || "Unknown"}`;
             manage_apps_select.innerHTML += `<option value="${AppName}">${AppName}</option>`;
             delete_app_box.innerHTML += `<option value="${AppName}">${AppName}</option>`;
@@ -434,7 +505,7 @@ async function renderDashboard() {
         });
 
         let FreeCpu = 100 - arraySum(AppsCPU);
-        let FreeRam = 4000 - arraySum(AppsRam); // MBs
+        let FreeRam = TotalRam - arraySum(AppsRam); // MBs
         AppsColor.push(`rgb(230, 179, 108, 0.95)`);
 
         AppsNames.push("Free");
@@ -520,7 +591,6 @@ function renderSSDBar() {
         return response.json();
       })
       .then((Data) => {
-        console.log(Data.Data);
         ssd_usage = document.getElementById("ssd_usage");
         ssd_usage.style.width = `${Data.Data.Percent.Used}%`;
         document
@@ -536,6 +606,45 @@ function renderSSDBar() {
   }
 }
 renderSSDBar();
+
+async function rename_dir(path, name, data) {
+  if (Query.get("file")) {
+    root = Query.get("file");
+  } else {
+    root = "";
+  }
+  const { value: NewName } = await Swal.fire({
+    input: "text",
+    customClass: {
+      popup: "colored-toast",
+    },
+    background: "#1B1C24",
+    confirmButtonText: "Change",
+    color: "#fff",
+    inputValue: name,
+    inputPlaceholder: `Enter New Name For ${name}`,
+  });
+  if (NewName) {
+    fetch("../rename_dir", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ToRename: path,
+        NewName: `${root}/${NewName}`,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.Success) {
+          Side_Success(data.Message);
+          renderFileManager();
+        } else {
+          Side_Err(data.Message);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+}
 
 if (document.getElementById("display_log")) {
   if (Query.get("name")) {
@@ -610,6 +719,34 @@ function delete_logs() {
     .catch((err) => console.log(err));
 }
 
+function download_package() {
+  Side_Info(
+    `Installing ${document.getElementById("download_package_box").value} For ${
+      document.getElementById("manage_apps_select").value
+    }`
+  );
+  fetch("../install_package", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      bot_app: document.getElementById("manage_apps_select").value,
+      package_name: document.getElementById("download_package_box").value,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      document.getElementById("download_package_box").value = null;
+      if (data.Success) {
+        Side_Success(data.Message);
+      } else {
+        Side_Err(data.Message);
+      }
+    })
+    .catch((err) => console.log(err));
+}
+
 if (document.getElementById("display_error_log")) {
   display_log = document.getElementById("display_error_log");
   fetch(`../error_log/${Query.get("name")}`)
@@ -669,7 +806,19 @@ function Err(Message) {
 }
 
 function Success(Message) {
-  Swal.fire("Basilisk Says", Message, "success").then((result) => {
+  if (localStorage.theme == "dark") {
+    ModalBackground = "#1B1C24";
+    ModalText = "#ffffff";
+  } else {
+    ModalText = "#3d3d3d";
+    ModalBackground = "#ffffff";
+  }
+  Swal.fire({
+    background: ModalBackground,
+    color: ModalText,
+    text: Message,
+    icon: "success",
+  }).then((result) => {
     window.location.reload();
   });
 }
@@ -696,9 +845,10 @@ function restart_app(Name) {
     })
     .then((myJson) => {
       if (myJson.Success) {
-        Success(myJson.Message);
+        Side_Success(myJson.Message);
+        renderDashboard();
       } else {
-        Err(myJson.Message);
+        Side_Err(myJson.Message);
       }
     });
 }
@@ -909,11 +1059,15 @@ function admin_login() {
 }
 
 function Side_Success(message) {
-  const Toast = Swal.mixin({
+  Toast = Swal.mixin({
     toast: true,
-    position: "bottom-end",
+    position: "top-right",
+    iconColor: "white",
+    customClass: {
+      popup: "colored-toast",
+    },
     showConfirmButton: false,
-    timer: 3000,
+    timer: 1500,
     timerProgressBar: true,
     didOpen: (toast) => {
       toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -933,6 +1087,9 @@ function Side_Info(message) {
     position: "bottom-end",
     showConfirmButton: false,
     timer: 3000,
+    customClass: {
+      popup: "colored-toast",
+    },
     timerProgressBar: true,
     didOpen: (toast) => {
       toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -953,6 +1110,9 @@ function Side_Warn(message) {
     showConfirmButton: false,
     timer: 3000,
     timerProgressBar: true,
+    customClass: {
+      popup: "colored-toast",
+    },
     didOpen: (toast) => {
       toast.addEventListener("mouseenter", Swal.stopTimer);
       toast.addEventListener("mouseleave", Swal.resumeTimer);
@@ -968,8 +1128,11 @@ function Side_Warn(message) {
 function Side_Err(message) {
   const Toast = Swal.mixin({
     toast: true,
-    position: "bottom-end",
+    position: "top-end",
     showConfirmButton: false,
+    customClass: {
+      popup: "colored-toast",
+    },
     timer: 3000,
     timerProgressBar: true,
     didOpen: (toast) => {
@@ -1066,7 +1229,6 @@ function addFile(target, file) {
 
 const gallery = document.getElementById("gallery"),
   overlay = document.getElementById("overlay");
-// and capture the selected files
 const hidden = document.getElementById("hidden-input");
 if (document.getElementById("button")) {
   document.getElementById("button").onclick = () => hidden.click();
@@ -1078,7 +1240,6 @@ if (document.getElementById("button")) {
 }
 const hasFiles = ({ dataTransfer: { types = [] } }) =>
   types.indexOf("Files") > -1;
-// this is to know if the outermost parent is dragged over
 let counter = 0;
 
 function dropHandler(ev) {
@@ -1137,6 +1298,7 @@ if (document.getElementById("submit")) {
         .then((data) => {
           if (data.Success) {
             Side_Success(data.Message);
+            renderFileManager();
           } else {
             Side_Err(data.Message);
           }
@@ -1155,10 +1317,11 @@ if (document.getElementById("submit")) {
 function toggle_theme() {
   if (localStorage.theme == "dark") {
     localStorage.theme = "light";
+    document.documentElement.classList.remove("dark");
   } else {
     localStorage.theme = "dark";
+    document.documentElement.classList.add("dark");
   }
-  window.location.reload();
 }
 
 if (document.getElementById("cancel")) {
@@ -1172,6 +1335,13 @@ if (document.getElementById("cancel")) {
   };
 }
 
+setInterval(() => {
+  if (localStorage.theme == "dark") {
+    document.documentElement.classList.add("dark");
+  } else {
+    document.documentElement.classList.remove("dark");
+  }
+}, 500);
 setInterval(() => {
   renderTips();
 }, 1000);

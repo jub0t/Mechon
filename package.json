@@ -1,21 +1,22 @@
 {
   "name": "basilisk",
   "version": "1.1.0",
-  "description": "Node.js Discord Bot Dashboard & Monitor",
+  "description": "Node.js Discord Bot Manager Dashboard & Monitor",
   "main": "index.js",
   "scripts": {
-    "tailwinds": "npx tailwindcss -i ./public/build.css -o ./public/tailwinds.css --watch --minify"
+    "tailwinds": "npx tailwindcss -i ./public/build.css -o ./public/tailwinds.css --watch --minify",
+    "generate_tailwinds": "npx tailwindcss -i ./public/build.css -o ./public/tailwinds.css --minify"
   },
   "keywords": [
-    "discord-bot-cms"
+    "discord",
+    "discord bot",
+    "manager"
   ],
   "author": "jareer12",
   "license": "CC-BY-4.0",
   "dependencies": {
-    "axios": "^0.24.0",
     "body-parser": "^1.19.1",
     "chalk": "^2.4.2",
-    "cluster": "^0.7.7",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "express-fileupload": "^1.2.1",
@@ -24,6 +25,7 @@
     "path": "^0.12.7",
     "pm2": "^5.1.2",
     "system-commands": "^1.1.7",
-    "systeminformation": "^5.9.17"
+    "systeminformation": "^5.9.17",
+    "undefined": "^0.1.0"
   }
 }

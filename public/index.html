@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css">
+    <link rel="icon" href="../favicon.png">
     <script src="../file/prism.js"></script>
     <link rel="stylesheet" href="../tailwinds">
     <title>Basilisk - Discord Bot Manager</title>
     <link rel="stylesheet" href="../file/prism.css">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/5968/5968322.png">
 </head>
 
 <body class="dark:bg-charade-600 dark:text-gray-300">
@@ -67,17 +67,19 @@
                     <button class="rounded-md dark:bg-charade-600 bg-blue-500 text-white py-3 w-full lg:w-auto px-10" onclick="create_app()">Create</button>
                 </div>
             </div>
-            <div class="w-full dark:bg-charade-700 space-y-4 dark:text-gray-300 text-gray-600 rounded-md shadow py-5 px-5">
-                <h1 class="text-gray-600 text-xl font-semibold dark:text-gray-200">Settings & Management</h1>
+            <div class="w-full">
+<div class="w-full dark:bg-charade-700 space-y-4 dark:text-gray-300 text-gray-600 rounded-md shadow py-5 px-5">
+                    <h1 class="text-gray-600 text-xl font-semibold dark:text-gray-200">Settings & Management</h1>
                 <div>
                     <h2>Selected Application</h2>
                     <select name="" id="delete_logs_app_box" class="rounded-md bg-gray-100 dark:bg-charade-600 dark:text-gray-300 py-3 px-3 w-full shadow"></select>
                 </div>
-                <div class="space-x-3">
-                    <button class="rounded-md bg-gray-600 dark:bg-charade-600 text-white py-3 w-full lg:w-auto px-10" onclick="delete_logs()">Delete Logs</button>
-                    <button class="rounded-md dark:bg-simmon-500 bg-red-500 text-white py-3 w-full lg:w-auto px-10" onclick="delete_error_logs()">Delete
+                <div class="space-y-3 w-full">
+                    <button class="rounded-md bg-gray-600 dark:bg-perfume-800 text-white py-3 w-full px-10" onclick="delete_logs()">Delete Logs</button>
+                    <button class="rounded-md dark:bg-simmon-500 bg-red-500 text-white py-3 w-full px-10" onclick="delete_error_logs()">Delete
                         Error Logs</button>
                 </div>
+</div>
             </div>
         </section>
     </section>
@@ -89,20 +91,25 @@
                     <div>
                         <div>
                             <h3>Select Application</h3>
-                            <select name="" id="manage_apps_select" class="rounded-md dark:bg-charade-600 bg-gray-100 py-3 px-3 w-full shadow"></select>
+                            <select id="manage_apps_select" class="rounded-md dark:bg-charade-600 bg-gray-100 py-3 px-3 w-full shadow"></select>
                         </div>
                     </div>
                     <div class="space-y-3 dark:text-gray-300 dark:text-gray-300 md:space-y-3 dark:bg-charade-700">
-                        <button class="rounded-md bg-blue-500 dark:bg-perfume-800 text-white py-3 w-full lg:w-auto px-10">Open</button>
-                        <button tip="Install All Required Modules" onclick="npm_install()" class="rounded-md bg-gray-600 dark:bg-charade-600 text-white py-3 w-full lg:w-auto px-10">NPM
-                            Install</button>
+                        <button tip="Install All Required Modules" onclick="npm_install()" class="mt-3 rounded-md bg-blue-500 dark:bg-perfume-800 text-white py-3 w-full lg:w-auto px-10">Download Packages</button>
                     </div>
                     <div class="mt-5  dark:text-gray-300">
                         <div>
                             <h3>Update Main Entry</h3>
-                            <input placeholder="Index.js" type="text" id="create_app_entry" class="py-3 px-3 bg-gray-100 dark:bg-charade-600 w-full text-gray-500 dark:text-gray-300 shadow rounded-md">
+                            <input placeholder="Index.js" type="text" id="update_app_entry" class="py-3 px-3 bg-gray-100 dark:bg-charade-600 w-full text-gray-500 dark:text-gray-300 shadow rounded-md">
                         </div>
-                        <button class="rounded-md bg-blue-500 mt-3 dark:bg-perfume-800 text-white py-3 w-full lg:w-auto px-10">Update</button>
+                        <button onclick="update_main()" class="rounded-md bg-blue-500 mt-3 dark:bg-perfume-800 text-white py-3 w-full lg:w-auto px-10">Update</button>
+                    </div>
+                    <div class="mt-5  dark:text-gray-300">
+                        <div>
+                            <h3 tip="Download A Node Package To Your Bot">Download Node Package</h3>
+                            <input placeholder="discord.js" type="text" id="download_package_box" class="py-3 px-3 bg-gray-100 dark:bg-charade-600 w-full text-gray-500 dark:text-gray-300 shadow rounded-md">
+                        </div>
+                        <button onclick="download_package()" class="rounded-md bg-blue-500 mt-3 dark:bg-perfume-800 text-white py-3 w-full lg:w-auto px-10">Install</button>
                     </div>
                 </div>
                 <div class="space-y-4 text-gray-600 mt-8 rounded-md py-5 px-5 dark:bg-charade-700 shadow">
@@ -118,23 +125,24 @@
             </div>
             <div class="w-full flex flex-wrap dark:text-gray-200">
                 <div class="w-full">
-                    <h3 class="text-gray-500 dark:text-gray-200 font-bold">Stats & Information</h3>
-                    <div class="w-full flex grid-cols-2 gap-5 grid bg-white shadow flex-wrap dark:bg-charade-700 dark:text-gray-300 text-gray-700 px-3 rounded-md py-3">
+                    <div class="w-full flex grid-cols-2 gap-5 grid py-4 px-4 bg-white shadow flex-wrap dark:bg-charade-700 dark:text-gray-300 text-gray-700 rounded-md">
                         <h1 class=""><i class="uil uil-shield-exclamation"></i> Path: <span id="panel_path_display">0</span></h1>
-                        <h1 class="text-blue-500 dark:text-perfume-800"><i class="uil uil-shield-exclamation"></i> Server: <a id="server_url_display">0</a></h1>
+                        <h1 class=""><i class="uil uil-shield-exclamation"></i> Server: <a class="text-blue-500 dark:text-perfume-800" id="server_url_display">0</a></h1>
                         <h1 class=""><i class="uil uil-info-circle"></i> Total Bots: <span id="total_bots_count">0</span></h1>
                         <h1 class=""><i class="uil uil-info-circle"></i> Storage(MBs): <span id="total_storage_display">0</span></h1>
                         <h1 class=""><i class="uil uil-info-circle"></i> Ram(MBs): <span id="total_ram_display">0</span></h1>
                     </div>
                 </div>
-                <div class="text-center">
+            <div class="w-full flex flex-wrap dark:text-gray-200" id="charts_display">
+                <div class="text-center mt-5">
                     <h3 class="text-gray-500 dark:text-gray-200 font-bold">CPU Usage(%)</h3>
                     <canvas class="float-right" id="cpu_chart"></canvas>
                 </div>
-                <div class="text-center">
+                <div class="text-center mt-5">
                     <h3 class="text-gray-500 dark:text-gray-200 font-bold">Ram Usage(MBs)</h3>
                     <canvas class="float-right" id="ram_chart"></canvas>
                 </div>
+            </div>
             </div>
         </section>
     </section>

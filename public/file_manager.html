@@ -10,12 +10,23 @@
     <link rel="stylesheet" href="../file/prism.css">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/5968/5968322.png">
+    <link rel="icon" href="../favicon.png">
 </head>
 
 <body class="dark:bg-charade-600 dark:text-gray-300">
     <div class="flex flex-col">
         <div class="flex flex-wrap justify-center overflow-x-auto mt-8">
+            <div class="py-2 w-11/12 align-middle inline-block mt-1">
+                <nav aria-label="breadcrumb" class="w-full p-4 text-gray-600 dark:text-gray-300">
+	<ol class="flex h-8 space-x-2" id="bread_crumb">
+		<li class="flex items-center">
+			<a href="../file_manager" title="Back to homepage" class="hover:underline">
+<i class="uil uil-estate"></i>
+			</a>
+		</li>
+	</ol>
+</nav>
+                </div>
             <div class="py-2 w-11/12 align-middle inline-block mt-1">
                 <button class="rounded-md py-3 px-8 bg-gray-600 dark:bg-charade-700 text-white" onclick="create_folder()">Create
                     Folder</button>
@@ -49,31 +60,28 @@
             </div>
         </div>
     </div>
-    <div class="flex flex-col">
+    <div class="flex flex-col mt-8">
         <div class="flex flex-wrap justify-center overflow-x-auto mt-8 mb-10">
             <div class="py-2 w-11/12 align-middle inline-block">
                 <main class="container shadow px-3 py-3 rounded-lg">
                     <article aria-label="File Upload Modal" class="relative h-full flex flex-col bg-white dark:bg-charade-700 rounded-md" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);" ondragleave="dragLeaveHandler(event);" ondragenter="dragEnterHandler(event);">
                         <section class="h-full overflow-auto p-8 w-full h-full flex flex-col">
-                            <header class="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
+                            <header class="border-dashed border-2 dark:border-perfume-800 py-12 flex flex-col justify-center items-center">
                                 <p class="mb-3 font-semibold text-gray-700 dark:text-gray-300 flex flex-wrap justify-center">
                                     <span>Drag
                                         and drop your</span>&nbsp;<span>files anywhere or</span>
                                 </p>
-                                <input id="hidden-input" type="file" multiple class="hidden" /> <button id="button" class="bg-blue-500 dark:bg-perfume-800 dark:text-white rounded-md text-white font-bold uppercase px-8 py-3 focus:outline-none">
+                                <input id="hidden-input" type="file" multiple class="hidden" /> <button id="button" class="bg-blue-500 dark:bg-perfume-800 dark:text-white rounded-md text-white uppercase px-8 py-3 focus:outline-none">
                                     Select </button>
                             </header>
-                            <h1 class="pt-8 pb-3 uppercase sm:text-xl text-gray-700 font-bold dark:text-gray-300">
-                                Upload List </h1>
-                            <ul id="gallery" class="flex flex-1 flex-wrap -m-1">
+                            <ul id="gallery" class="flex flex-1 flex-wrap -m-1  mt-8">
                                 <li id="empty" class="h-full w-full text-center flex flex-col items-center justify-center items-center">
                                     <img class="mx-auto w-32" src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png" alt="no data" /> <span class="text-small text-gray-500">No files selected</span>
-                                </li>
+                                   </li>
                             </ul>
                         </section>
                         <footer class="flex space-x-3 justify-end px-8 pb-8 pt-4"> <button id="submit" class="bg-gray-600 dark:bg-perfume-800 rounded-md text-white uppercase px-8 py-3 focus:outline-none">
-                                Upload
-                                now </button> <button id="cancel" class="bg-red-500 rounded-md text-white uppercase px-8 py-3 focus:outline-none"> Cancel
+                                Upload Selected </button> <button id="cancel" class="bg-red-500 rounded-md text-white uppercase px-8 py-3 focus:outline-none"> Cancel
                             </button>
                         </footer>
                     </article>
@@ -82,14 +90,14 @@
             <template id="file-template">
                 <li class="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 h-24">
                     <article tabindex="0"
-                        class="group w-full h-full rounded-md focus:outline-none focus:shadow-outline elative bg-gray-100 cursor-pointer relative shadow-sm">
+                        class="group w-full h-full rounded-md focus:outline-none focus:shadow-outline elative dark:bg-charade-600 bg-gray-100 cursor-pointer relative shadow-sm">
                         <img alt="upload preview"
                             class="img-preview hidden w-full h-full sticky object-cover rounded-md bg-fixed" />
                         <section
                             class="flex flex-col rounded-md text-xs break-words w-full h-full z-20 absolute top-0 py-2 px-3">
-                            <h1 class="flex-1 group-hover:text-blue-800"></h1>
+                            <h1 class="flex-1 group-hover:text-blue-500 dark:group-hover:text-perfume-800"></h1>
                             <div class="flex">
-                                <span class="p-1 text-blue-800">
+                                <span class="p-1 text-blue-800 dark:text-perfume-800">
                                     <i>
                                         <svg class="fill-current w-4 h-4 ml-auto pt-1"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -98,9 +106,9 @@
                                         </svg>
                                     </i>
                                 </span>
-                                <p class="p-1 size text-xs text-gray-700"></p>
+                                <p class="p-1 size text-xs text-gray-700 hover:text-blue-500 dark:hover:text-perfume-800 dark:text-gray-300"></p>
                                 <button
-                                    class="delete ml-auto focus:outline-none hover:bg-gray-300 p-1 rounded-md text-gray-800">
+                                    class="delete ml-auto hover:text-blue-500 dark:text-perfume-800 focus:outline-none p-1  rounded-md">
                                     <svg class="pointer-events-none fill-current w-4 h-4 ml-auto"
                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                         <path class="pointer-events-none"
