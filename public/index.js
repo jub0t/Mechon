@@ -101,6 +101,59 @@ function update_main() {
     .catch((err) => console.log(err));
 }
 
+if (document.getElementById("tailwinds_content")) {
+  fetch(`../tailwinds_content`)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.Success == true) {
+        document.getElementById("tailwinds_content").innerHTML = data.Data;
+        Side_Success(data.Message);
+        Prism.highlightAll();
+      } else {
+        Side_Err(data.Message);
+      }
+    })
+    .catch((err) => console.log(err));
+}
+
+function update_tailwinds() {
+  fetch("../update_tailwinds", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      data: document.getElementById("tailwinds_content").innerHTML,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.Success == true) {
+        Side_Success(data.Message);
+        Prism.highlightAll();
+      } else {
+        Side_Err(data.Message);
+      }
+    })
+    .catch((err) => console.log(err));
+}
+
+function generate_tailwinds() {
+  fetch("../generate_tailwinds", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.Success == true) {
+        Side_Info("Installing The New Tailwinds");
+        Side_Success(data.Message);
+        Prism.highlightAll();
+      } else {
+        Side_Err(data.Message);
+      }
+    })
+    .catch((err) => console.log(err));
+}
+
 function saveFile() {
   if (document.getElementById("content")) {
     let Content = document.getElementById("content").innerText || null;

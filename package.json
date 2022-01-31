@@ -3,6 +3,11 @@
   "version": "1.1.0",
   "description": "Node.js Discord Bot Manager Dashboard & Monitor",
   "main": "index.js",
+  "repository": "git+https://github.com/jareer12/BASILISK.git",
+  "bugs": {
+    "url": "https://github.com/jareer12/BASILISK/issues"
+  },
+  "homepage": "https://github.com/jareer12/BASILISK#readme",
   "scripts": {
     "tailwinds": "npx tailwindcss -i ./public/build.css -o ./public/tailwinds.css --watch --minify",
     "generate_tailwinds": "npx tailwindcss -i ./public/build.css -o ./public/tailwinds.css --minify"
@@ -22,6 +27,7 @@
     "express-fileupload": "^1.2.1",
     "express-session": "^1.17.2",
     "fast-folder-size": "^1.6.1",
+    "https": "^1.0.0",
     "path": "^0.12.7",
     "pm2": "^5.1.2",
     "system-commands": "^1.1.7",

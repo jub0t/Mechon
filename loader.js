@@ -140,6 +140,7 @@ Initialize = new Promise(function (resolve, reject) {
   console.log(chalk.blue(`〚≡〛Initializing Dashboard, Please Wait`));
   EnvData = `PORT=${randomPort()}
 MAX_RELOADS=5
+USE_SSL=false
 ADMIN_USERNAME=${randomWord()}
 ADMIN_PASSWORD=${GeneratePassword()}
 LOGIN_REQUIRED=true

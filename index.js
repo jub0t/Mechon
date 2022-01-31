@@ -13,6 +13,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const express = require("express");
 const chalk = require("chalk");
+const https = require("https");
 const pm2 = require("pm2");
 const fs = require("fs");
 const app = express();
@@ -139,7 +140,7 @@ app.post("/install_package", (req, res) => {
     });
 });
 
-app.get("/generate_tailwinds", (req, res) => {
+app.post("/generate_tailwinds", (req, res) => {
   if (process.env.LOGIN_REQUIRED == "true") {
     if (!req.session.username) {
       res.end(
@@ -172,37 +173,27 @@ app.get("/generate_tailwinds", (req, res) => {
     });
 });
 
-app.get("/update_tailwinds", (req, res) => {
+app.post("/update_tailwinds", (req, res) => {
   if (req.body.data) {
     if (fs.existsSync("./tailwind.config.js")) {
-      try {
-        Data = JSON.parse(req.body.data);
-        fs.write("./tailwind.config.js", JSON.stringify(Data), (err, data) => {
-          if (err) {
-            res.end(
-              JSON.stringify({
-                Success: false,
-                Message: `Unable To Update Tailwinds Config`,
-                Error: err,
-              })
-            );
-            return;
-          }
+      fs.writeFile("./tailwind.config.js", req.body.data, (err, data) => {
+        if (err) {
           res.end(
             JSON.stringify({
               Success: false,
-              Message: `Tailwinds Config Updated`,
+              Message: `Unable To Update Tailwinds Config`,
+              Error: err,
             })
           );
-        });
-      } catch {
+          return;
+        }
         res.end(
           JSON.stringify({
-            Success: false,
-            Message: `Could Not Parse Data To Json`,
+            Success: true,
+            Message: `Tailwinds Config Updated`,
           })
         );
-      }
+      });
     } else {
       res.end(
         JSON.stringify({
@@ -215,7 +206,28 @@ app.get("/update_tailwinds", (req, res) => {
     res.end(
       JSON.stringify({
         Success: false,
-        Message: `Confige Data is Missing`,
+        Message: `Configure Data is Missing`,
+      })
+    );
+  }
+});
+
+app.get("/tailwinds_content", (req, res) => {
+  if (fs.existsSync("./tailwind.config.js")) {
+    fs.readFile("./tailwind.config.js", "utf8", function (err, data) {
+      res.end(
+        JSON.stringify({
+          Success: true,
+          Message: `Tailwinds Loaded`,
+          Data: data,
+        })
+      );
+    });
+  } else {
+    res.end(
+      JSON.stringify({
+        Success: false,
+        Message: `Tailwinds Config File is Missing`,
       })
     );
   }
@@ -1396,6 +1408,9 @@ app.get("/css", (req, res) => {
 });
 app.get("/show_log", (req, res) => {
   res.sendFile(`./public/show_log.html`, { root: __dirname });
+});
+app.get("/edit_panel", (req, res) => {
+  res.sendFile(`./public/edit_panel.html`, { root: __dirname });
 });
 app.get("/show_error_log", (req, res) => {
   res.sendFile(`./public/show_error_log.html`, { root: __dirname });
