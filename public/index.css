@@ -47,3 +47,23 @@ body {
 .colored-toast .swal2-html-container {
   color: white;
 }
+
+.codeflask__flatten,
+.codeflask__lines,
+.codeflask {
+  background-color: #1b1c24 !important;
+}
+
+::-moz-selection {
+  /* Code for Firefox */
+  background: #a268f7 !important;
+}
+
+.codeflask::selection,
+::selection {
+  background: #a268f7 !important;
+}
+
+.small-text {
+  font-size: 12px !important;
+}

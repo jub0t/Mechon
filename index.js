@@ -902,7 +902,6 @@ app.post("/update_main", (req, res) => {
         req.body.new_main = `${req.body.new_main}.js`;
       }
       Path = `./${process.env.SECRET_PATH}/${req.body.name}/package.json`;
-      console.log(Path);
       if (fs.existsSync(Path)) {
         fs.readFile(Path, "utf8", (err, data) => {
           Data = JSON.parse(data);
@@ -1308,46 +1307,6 @@ app.get("/dir_size/:path", async (req, res) => {
   }
 });
 
-let FetchSSDUsage = new Promise(function (resolve, reject) {
-  PrimaryData = [];
-  try {
-    getFiles(`./${process.env.SECRET_PATH}`, function (files) {
-      files.forEach((file) => {
-        FilePath = `./${process.env.SECRET_PATH}/${file.Name}`;
-        if (file.isDirectory == true) {
-          fastFolderSize(`${FilePath}`, function (err, Bytes) {
-            if (err) {
-              console.log(err);
-            }
-            PrimaryData.push({
-              Name: file.Name,
-              isDirectory: file.isDirectory,
-              Path: `./${process.env.SECRET_PATH}/${file.Name}`,
-              Stats: {
-                Size: Bytes,
-              },
-            });
-          });
-        } else {
-          fs.stat(FilePath, function (err, stats) {
-            PrimaryData.push({
-              Name: file.Name,
-              isDirectory: file.isDirectory,
-              Path: `./${process.env.SECRET_PATH}/${file.Name}`,
-              Stats: {
-                Size: stats.size,
-              },
-            });
-          });
-        }
-      });
-      resolve(PrimaryData);
-    });
-  } catch (err) {
-    reject(err);
-  }
-});
-
 app.get("/ssd_usage", async (req, res) => {
   if (process.env.LOGIN_REQUIRED == "true") {
     if (!req.session.username) {
@@ -1385,36 +1344,22 @@ app.get("/ssd_usage", async (req, res) => {
   });
 });
 
-app.get("/file/:name", (req, res) => {
-  res.sendFile(`./public/${req.params.name}`, { root: __dirname });
+app.get("/", (req, res) => {
+  if (process.env.LOGIN_REQUIRED == "true") {
+    if (req.session) {
+      if (req.session.username) {
+        res.sendFile(`./pages/index.html`, { root: __dirname });
+      } else {
+        res.sendFile(`./pages/login.html`, { root: __dirname });
+      }
+    } else {
+      res.sendFile(`./pages/login.html`, { root: __dirname });
+    }
+  } else {
+    res.sendFile(`./pages/index.html`, { root: __dirname });
+  }
 });
-app.get("/edit", (req, res) => {
-  res.sendFile(`./public/edit.html`, { root: __dirname });
-});
-app.get("/tailwinds", (req, res) => {
-  res.sendFile(`./public/tailwinds.css`, { root: __dirname });
-});
-app.get("/favicon.png", (req, res) => {
-  res.sendFile(`./public/favicon.png`, { root: __dirname });
-});
-app.get("/file_manager", (req, res) => {
-  res.sendFile(`./public/file_manager.html`, { root: __dirname });
-});
-app.get("/javascript", (req, res) => {
-  res.sendFile(`./public/index.js`, { root: __dirname });
-});
-app.get("/css", (req, res) => {
-  res.sendFile(`./public/index.css`, { root: __dirname });
-});
-app.get("/show_log", (req, res) => {
-  res.sendFile(`./public/show_log.html`, { root: __dirname });
-});
-app.get("/edit_panel", (req, res) => {
-  res.sendFile(`./public/edit_panel.html`, { root: __dirname });
-});
-app.get("/show_error_log", (req, res) => {
-  res.sendFile(`./public/show_error_log.html`, { root: __dirname });
-});
+
 app.get("/system", (req, res) => {
   System.diskLayout().then((data) => {
     res.end(JSON.stringify(data));
@@ -1450,22 +1395,6 @@ app.get("/reload_apps", (req, res) => {
         })
       );
     });
-});
-
-app.get("/", (req, res) => {
-  if (process.env.LOGIN_REQUIRED == "true") {
-    if (req.session) {
-      if (req.session.username) {
-        res.sendFile(`./public/index.html`, { root: __dirname });
-      } else {
-        res.sendFile(`./public/login.html`, { root: __dirname });
-      }
-    } else {
-      res.sendFile(`./public/login.html`, { root: __dirname });
-    }
-  } else {
-    res.sendFile(`./public/index.html`, { root: __dirname });
-  }
 });
 
 app.post("/login", (req, res) => {
@@ -1507,6 +1436,24 @@ app.post("/login", (req, res) => {
         Message: "Wrong Username/Password",
       })
     );
+  }
+});
+
+app.get("/:name", (req, res) => {
+  let Path = `./pages/${req.params.name}.html`;
+  if (fs.existsSync(Path)) {
+    res.sendFile(Path, { root: __dirname });
+  } else {
+    res.end(`This file does not exist`);
+  }
+});
+
+app.get("/file/:name", (req, res) => {
+  let Path = `./public/${req.params.name}`;
+  if (fs.existsSync(Path)) {
+    res.sendFile(Path, { root: __dirname });
+  } else {
+    res.end(`This file does not exist`);
   }
 });
 

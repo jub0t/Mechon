@@ -2,18 +2,21 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
     <title>Basilisk - File Manager</title>
-    <link rel="stylesheet" href="../css">
-    <script src="../file/prism.js"></script>
-    <link rel="stylesheet" href="../tailwinds">
-    <link rel="stylesheet" href="../file/prism.css">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../favicon.png">
+    <link rel="icon" href="../file/favicon.png" />
+    <link rel="stylesheet" href="../file/index.css" />
+    <link rel="stylesheet" href="../file/tailwinds.css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="//unicons.iconscout.com/release/v4.0.0/css/line.css" />
+    <script src="//cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="//unpkg.com/@popperjs/core@2"></script>
+    <script src="//unpkg.com/tippy.js@6"></script>
+    <meta charset="UTF-8" />
 </head>
 
-<body class="dark:bg-charade-600 dark:text-gray-300 text-sm">
+<body class="dark:bg-charade-600 dark:text-gray-300 text-sm small-text">
     <div class="flex flex-col">
         <div class="flex flex-wrap justify-center overflow-x-auto">
             <div class="py-2 w-11/12 align-middle inline-block mt-1">
@@ -61,7 +64,8 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white dark:divide-perfume-800 divide-y divide-gray-200 dark:bg-charade-700"
+                        <tbody
+                            class="bg-white dark:divide-perfume-800 small-text divide-y divide-gray-200 dark:bg-charade-700"
                             id="file_manager_table">
                         </tbody>
                     </table>
@@ -177,11 +181,7 @@
     </div>
     </div>
 </body>
-<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://unpkg.com/@popperjs/core@2"></script>
-<script src="https://unpkg.com/tippy.js@6"></script>
-<script src="../javascript"></script>
+
+<script src="../file/index.js"></script>
 
 </html>

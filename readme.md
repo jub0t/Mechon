@@ -1,10 +1,15 @@
-# INSTALLATION
+# Guide
 
-first of all download and unzip the file, then run `npm i` to install needed modules, after that run `node .` to intialize the dashboard, wait for it to create the required files and directories. Once done run `node .` to run your panel, thats all you have no setup your own panel.
+1. Run `npm install`
+2. Run `node .`, and wait for initialization to complete(must). If you stop while initialization, you will have to do it all over again.
+3. Run `node .`, and now your panel is running
 
-## CUSTOMIZATION
+## Customize
 
-After intializing, You can edit `.env` to change ram usage, ssd usage, admin pass, admin user, etc. To change the web ui can configure the `tailwinds.config.js` and run `npm tailwinds` to rebuild the css.
+1. After intializing, You can edit `.env` to change ram usage, ssd usage, admin pass, admin user, etc.
+2. To change the UI update `tailwinds.config.js` and run `npm run tailwinds`.
+
+If any problems occur, like shell spam, or you can't delete the app folder. Run `taskkill /f /im node.exe`, this will kill all node processes on the machine.
 
 ![https://www.site-shot.com/cached_image/HYSjinYDEey_CQJCrBEAAg](https://www.site-shot.com/cached_image/HYSjinYDEey_CQJCrBEAAg)
 ![https://i.imgur.com/5pPap1T.png](https://i.imgur.com/5pPap1T.png)

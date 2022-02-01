@@ -1,14 +1,3 @@
-# Basalisk
-
-Discord Node.js Monitor & Panel, Hosts upto 15 Discord bot.
-
-## Creator
-
-Discord Rigby#6654
-Github jareer12
-
-## License
-
 # Attribution 4.0 International
 
 Creative Commons Corporation ("Creative Commons") is not a law firm and

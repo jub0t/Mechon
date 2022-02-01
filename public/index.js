@@ -66,12 +66,18 @@ if (document.getElementById("content")) {
     })
     .then((myJson) => {
       if (myJson.Success == true) {
-        Side_Success(myJson.Message);
-        document.getElementById("content").innerHTML = myJson.Data.Content;
         Parts = Query.get("file").toString().split("/");
         Extension = Parts[Parts.length - 1].toString().split(".")[1];
         document.getElementById("content").className = `language-${Extension}`;
-        Prism.highlightAll();
+        const editorElem = document.getElementById("content");
+        const flask = new CodeFlask(editorElem, {
+          language: Extension,
+          lineNumbers: true,
+        });
+        flask.updateCode(myJson.Data.Content);
+        flask.onUpdate((code) => {
+          saveFile(code);
+        });
       } else {
         Side_Err(myJson.Message);
       }
@@ -101,83 +107,24 @@ function update_main() {
     .catch((err) => console.log(err));
 }
 
-if (document.getElementById("tailwinds_content")) {
-  fetch(`../tailwinds_content`)
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.Success == true) {
-        document.getElementById("tailwinds_content").innerHTML = data.Data;
-        Side_Success(data.Message);
-        Prism.highlightAll();
-      } else {
-        Side_Err(data.Message);
-      }
-    })
-    .catch((err) => console.log(err));
-}
-
-function update_tailwinds() {
-  fetch("../update_tailwinds", {
+function saveFile(code) {
+  let Content = code;
+  fetch(`../update_file?path=${Query.get("file")}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
-      data: document.getElementById("tailwinds_content").innerHTML,
+      content: decodeURIComponent(Content),
     }),
   })
     .then((res) => res.json())
     .then((data) => {
-      if (data.Success == true) {
-        Side_Success(data.Message);
-        Prism.highlightAll();
-      } else {
+      if (data.Success == false) {
         Side_Err(data.Message);
       }
     })
     .catch((err) => console.log(err));
-}
-
-function generate_tailwinds() {
-  fetch("../generate_tailwinds", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.Success == true) {
-        Side_Info("Installing The New Tailwinds");
-        Side_Success(data.Message);
-        Prism.highlightAll();
-      } else {
-        Side_Err(data.Message);
-      }
-    })
-    .catch((err) => console.log(err));
-}
-
-function saveFile() {
-  if (document.getElementById("content")) {
-    let Content = document.getElementById("content").innerText || null;
-    fetch(`../update_file?path=${Query.get("file")}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        content: Content,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        Prism.highlightAll();
-        if (data.Success == true) {
-          Side_Success(data.Message);
-          Prism.highlightAll();
-        } else {
-          Side_Err(data.Message);
-        }
-      })
-      .catch((err) => console.log(err));
-  }
 }
 
 function NumMat(number, digits) {
@@ -274,9 +221,9 @@ function renderFileManager() {
           document.getElementById("file_manager_table").innerHTML = "";
           myJson.Data.forEach((File) => {
             document.getElementById("file_manager_table").innerHTML += `
-                        <tr class="divide dark:text-gray-200 dark:divide-perfume-800">
+                        <tr class="divide dark:text-gray-200 dark:divide-perfume-800 small-text">
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm dark:text-gray-200 text-gray-900">
+                                        <div class=" dark:text-gray-200 text-gray-900">
                                         <input file_name="${
                                           File.Name
                                         }" file_path="${Name}/${
@@ -289,24 +236,24 @@ function renderFileManager() {
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
                                             <div class="ml-4">
-                                                <div class="text-sm dark:text-gray-200 text-gray-500">
+                                                <div class=" dark:text-gray-200 text-gray-500">
                                                     ${File.Name}
                                                 </div>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900 dark:text-gray-200">${NumMat(
+                                        <div class=" text-gray-900 dark:text-gray-200">${NumMat(
                                           File
                                         )}</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900 dark:text-gray-200">${isFolder(
+                                        <div class=" text-gray-900 dark:text-gray-200">${isFolder(
                                           File.isDirectory
                                         )}</div>
                                     </td>
                                     <td
-                                        class="px-6 space-x-3 items-center py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        class="px-6 space-x-3 items-center py-4 whitespace-nowrap text-right  font-medium">
                                         ${getViewsFolder(Name, File)}
                                         ${TypeToPen(Name, File)}
                                         <button tip="Rename This" onclick="rename_dir('${Name}/${
@@ -489,32 +436,32 @@ async function renderDashboard() {
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
                                             <div class="ml-4">
-                                                <div class="text-sm dark:text-gray-200 text-gray-500">
+                                                <div class=" dark:text-gray-200 text-gray-500">
                                                     ${Process.App.Pid}
                                                 </div>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm dark:text-gray-200 text-gray-900">${
+                                        <div class=" dark:text-gray-200 text-gray-900">${
                                           Process.App.Name || "Unknown"
                                         }</div>
                                     </td>
                                     <td class="px-6 py-4 dark:text-gray-200 whitespace-nowrap">
                                         <span
-                                            class="px-5 py-1 uppercase inline-flex text-xs leading-5 rounded-full bg-${StatusToColor(
+                                            class="px-5 py-1 uppercase inline-flex  leading-5 rounded-full bg-${StatusToColor(
                                               Process.App.Status
                                             )}-500 text-white font-bold">
                                             ${Process.App.Status}
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm dark:text-gray-200 text-gray-900">${Math.floor(
+                                        <div class="dark:text-gray-200 text-gray-900">${Math.floor(
                                           Process.Memory / 1000000
                                         )}MB</div>
                                     </td>
                                     <td
-                                        class="px-6 space-x-3 items-center py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        class="px-6 space-x-3 items-center py-4 whitespace-nowrap text-right  font-medium">
                                         <button ${StatusToFunction({
                                           Status: Process.App.Status,
                                           Name: Process.App.Name,
@@ -707,12 +654,16 @@ if (document.getElementById("display_log")) {
         return response.json();
       })
       .then((myJson) => {
-        display_log.innerHTML = myJson.Data;
-        Prism.highlightAll();
+        const editorElem = document.getElementById("display_log");
+        const flask = new CodeFlask(editorElem, {
+          language: `sh`,
+          lineNumbers: true,
+        });
+        flask.updateCode(myJson.Data);
+        flask.onUpdate((code) => {
+          saveFile(code);
+        });
       });
-  } else {
-    display_log.innerText = `## Could Not Find Logs - 404`;
-    Prism.highlightAll();
   }
 }
 
@@ -807,8 +758,15 @@ if (document.getElementById("display_error_log")) {
       return response.json();
     })
     .then((myJson) => {
-      display_log.innerHTML = myJson.Data;
-      Prism.highlightAll();
+      const editorElem = document.getElementById("display_error_log");
+      const flask = new CodeFlask(editorElem, {
+        language: `language-shell`,
+        lineNumbers: true,
+      });
+      flask.updateCode(myJson.Data);
+      flask.onUpdate((code) => {
+        saveFile(code);
+      });
     });
 }
 
@@ -1238,8 +1196,7 @@ function randomRGBA(opacity) {
 if (window.location.href.toString().includes("edit")) {
   document.onkeydown = function (e) {
     if (e.ctrlKey && e.keyCode == 83) {
-      saveFile();
-      Side_Success("Saved 😎");
+      Side_Success("We Have Auto Save Don't Worry 😎");
       return false;
     }
   };
