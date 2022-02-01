@@ -2,7 +2,7 @@
 
 1. Run `npm install`
 2. Run `node .`, and wait for initialization to complete(must). If you stop while initialization, you will have to do it all over again.
-3. Run `node .`, and now your panel is running
+3. Run `node .`, and now your panel is running on a random port(can be changed).
 
 ## Customize
 
