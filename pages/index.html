@@ -73,12 +73,12 @@
                 <div class="dark:text-gray-300">
                     <h3>Application Name</h3>
                     <input placeholder="SomethingCool" type="text" id="create_app_name"
-                        class="py-3 px-3 bg-gray-100 dark:bg-charade-600 dark:text-gray-300 w-full text-gray-500 shadow rounded-md">
+                        class="focus:outline-none border-transparent focus:border-perfume-800 border-2 py-3 px-3 bg-gray-100 dark:bg-charade-600 dark:text-gray-300 w-full text-gray-500 shadow rounded-md">
                 </div>
                 <div>
                     <h3>Main Entry</h3>
                     <input placeholder="Index.js" type="text" id="create_app_entry"
-                        class="py-3 px-3 dark:bg-charade-600 dark:text-gray-300 bg-gray-100 w-full text-gray-500 shadow rounded-md">
+                        class="focus:outline-none border-transparent focus:border-perfume-800 border-2 py-3 px-3 dark:bg-charade-600 dark:text-gray-300 bg-gray-100 w-full text-gray-500 shadow rounded-md">
                 </div>
                 <div>
                     <button class="rounded-md dark:bg-charade-600 bg-blue-500 text-white py-3 w-full lg:w-auto px-10"
@@ -114,7 +114,7 @@
                         <div>
                             <h3>Select Application</h3>
                             <select id="manage_apps_select"
-                                class="rounded-md dark:bg-charade-600 bg-gray-100 py-3 px-3 w-full shadow"></select>
+                                class="rounded-md focus:outline-none border-transparent focus:border-perfume-800 border-2  dark:bg-charade-600 bg-gray-100 py-3 px-3 w-full shadow"></select>
                         </div>
                     </div>
                     <div class="space-y-3 dark:text-gray-300 dark:text-gray-300 md:space-y-3 dark:bg-charade-700">
@@ -126,7 +126,7 @@
                         <div>
                             <h3>Update Main Entry</h3>
                             <input placeholder="Index.js" type="text" id="update_app_entry"
-                                class="py-3 px-3 bg-gray-100 dark:bg-charade-600 w-full text-gray-500 dark:text-gray-300 shadow rounded-md">
+                                class="focus:outline-none border-transparent focus:border-perfume-800 border-2 py-3 px-3 bg-gray-100 dark:bg-charade-600 w-full text-gray-500 dark:text-gray-300 shadow rounded-md">
                         </div>
                         <button onclick="update_main()"
                             class="rounded-md bg-blue-500 mt-3 dark:bg-perfume-800 text-white py-3 w-full lg:w-auto px-10">Update</button>
@@ -135,7 +135,7 @@
                         <div>
                             <h3 tip="Download A Node Package To Your Bot">Download Node Package</h3>
                             <input placeholder="discord.js" type="text" id="download_package_box"
-                                class="py-3 px-3 bg-gray-100 dark:bg-charade-600 w-full text-gray-500 dark:text-gray-300 shadow rounded-md">
+                                class="focus:outline-none border-transparent focus:border-perfume-800 border-2 py-3 px-3 bg-gray-100 dark:bg-charade-600 w-full text-gray-500 dark:text-gray-300 shadow rounded-md">
                         </div>
                         <button onclick="download_package()"
                             class="rounded-md bg-blue-500 mt-3 dark:bg-perfume-800 text-white py-3 w-full lg:w-auto px-10">Install</button>
@@ -187,5 +187,6 @@
 </body>
 
 <script src="../file/index.js"></script>
+
 
 </html>

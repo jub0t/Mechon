@@ -74,7 +74,7 @@ if (document.getElementById("content")) {
           language: Extension,
           lineNumbers: true,
         });
-        flask.updateCode(myJson.Data.Content);
+        flask.updateCode(myJson.Data.Content.decodeEntities());
         flask.onUpdate((code) => {
           saveFile(code);
         });
@@ -427,7 +427,7 @@ async function renderDashboard() {
           if (delete_app_box) {
             delete_app_box.value = null;
             AppName = `${Process.App.Name || "Unknown"}`;
-            manage_apps_select.innerHTML += `<option value="${AppName}">${AppName}</option>`;
+            manage_apps_select.innerHTML += `<option class="py-3 " value="${AppName}">${AppName}</option>`;
             delete_app_box.innerHTML += `<option value="${AppName}">${AppName}</option>`;
             delete_logs_app_box.innerHTML += `<option value="${AppName}">${AppName}</option>`;
             document.getElementById(
@@ -659,7 +659,7 @@ if (document.getElementById("display_log")) {
           language: `sh`,
           lineNumbers: true,
         });
-        flask.updateCode(myJson.Data);
+        flask.updateCode(myJson.Data.decodeEntities());
         flask.onUpdate((code) => {
           saveFile(code);
         });

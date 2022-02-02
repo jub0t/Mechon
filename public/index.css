@@ -48,12 +48,18 @@ body {
   color: white;
 }
 
+.codeflask--has-line-numbers,
+.codeflask__lines__line,
 .codeflask__flatten,
 .codeflask__lines,
 .codeflask {
   background-color: #1b1c24 !important;
+  border-color: #1b1c24 !important;
+  background: #1b1c24 !important;
 }
-
+.codeflask::-moz-selection {
+  background: #a268f7 !important;
+}
 ::-moz-selection {
   /* Code for Firefox */
   background: #a268f7 !important;
