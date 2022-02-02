@@ -19,7 +19,7 @@ cd DiscordBotPanel
 
 If any problems occur, like shell spam, or you can't delete the app folder. Run `taskkill /f /im node.exe`, this will kill all node processes on the machine.
 
-![Image](../BaseTemplate/home.png)
-![Image](../BaseTemplate/home-dark.png)
-![Image](../BaseTemplate/file-editor.png)
-![Image](../BaseTemplate/dark-file-manager.png)
+![Image](./BaseTemplate/home.png)
+![Image](./BaseTemplate/home-dark.png)
+![Image](./BaseTemplate/file-editor.png)
+![Image](./BaseTemplate/dark-file-manager.png)
