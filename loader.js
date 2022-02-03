@@ -9,7 +9,7 @@ const fs = require("fs");
 
 const randomString = (count) => {
   const letter =
-    "0123456789abcdefghikjlmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    "0123456789~!@#$%^&*()_+}{[]|abcdefghikjlmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
   let randomString = "";
   for (let i = 0; i < count; i++) {
     const randomStringNumber = Math.floor(
@@ -162,6 +162,14 @@ LOGIN_REQUIRED_MESSAGE=Please Login To Complete This Action`;
         console.log(chalk.green(`〚✔〛Successfuly Wrote Data To .env`));
         require("dotenv").config();
         if (process.env.SECRET_PATH) {
+          if (!fs.existsSync(`./${process.env.SECRET_PATH}`)) {
+            fs.mkdirSync(`./${process.env.SECRET_PATH}`);
+            if (!fs.existsSync(`./${process.env.SECRET_PATH}/logs`)) {
+              fs.mkdirSync(`./${process.env.SECRET_PATH}/logs`);
+            }
+          }
+        }
+        if (process.env.SECRET_PATH) {
           if (!fs.existsSync(`./${process.env.SECRET_PATH}/Master`)) {
             fs.mkdir(
               `./${process.env.SECRET_PATH}/Master`,
@@ -222,20 +230,12 @@ LOGIN_REQUIRED_MESSAGE=Please Login To Complete This Action`;
         reject(`Sync Error ${err}`);
       });
   }
-  if (process.env.SECRET_PATH) {
-    if (!fs.existsSync(`./${process.env.SECRET_PATH}`)) {
-      fs.mkdirSync(`./${process.env.SECRET_PATH}`);
-      if (!fs.existsSync(`./${process.env.SECRET_PATH}/logs`)) {
-        fs.mkdirSync(`./${process.env.SECRET_PATH}/logs`);
-      }
-    }
-  }
   if (!fs.existsSync(`./start.bat`)) {
     console.log(chalk.blue(`〚≡〛Creating Server Startup File...`));
     fs.open(`./start.bat`, "w", function (err, data) {
       fs.writeFile(
         `./start.bat`,
-        `pm2 start ${__dirname}/index.js  -i max`,
+        `pm2 start ${__dirname}/index.js -i max`,
         (err) => {
           if (err) throw err;
           console.log(
