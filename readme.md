@@ -26,16 +26,19 @@ If any problems occur, like shell spam, or you can't delete the app folder. Run 
 ## Themes
 
 comes with white and dark theme.
+
 ![Image](./BaseTemplate/home.png)
 ![Image](./BaseTemplate/home-dark.png)
 
 ## Features
 
 Built/in file-manager and file editor
+
 ![Image](./BaseTemplate/file-editor.png)
 ![Image](./BaseTemplate/dark-file-manager.png)
 
 ## Initialization
 
 Easy setup with a few commands
+
 ![Image](./BaseTemplate/init.png)
