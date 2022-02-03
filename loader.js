@@ -9,7 +9,7 @@ const fs = require("fs");
 
 const randomString = (count) => {
   const letter =
-    "0123456789~!@#$%^&*()_+}{[]|abcdefghikjlmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    "0123456789abcdefghikjlmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
   let randomString = "";
   for (let i = 0; i < count; i++) {
     const randomStringNumber = Math.floor(
@@ -88,21 +88,22 @@ async function Start(Folder) {
         }
         Package = JSON.parse(data);
         pm2.start({
-          name: `${process.env.SECRET_PATH.toUpperCase()}_${Folder}`,
+          watch: false,
+          daemon: false,
           detached: true,
           min_uptime: 5000,
           watch_delay: 5000,
           autorestart: false,
-          exp_backoff_restart_delay: 100,
+          watch_ignore: true,
           max_restarts: process.env.MAX_RELOADS,
           restart_delay: process.env.RESTART_DELAY,
+          name: `${process.env.SECRET_PATH.toUpperCase()}_${Folder}`,
           script: `./${process.env.SECRET_PATH}/${Folder}/${Package.main}`,
           out_file: `./${process.env.SECRET_PATH}/logs/${Folder}.strout.log`,
           error_file: `./${process.env.SECRET_PATH}/logs/${Folder}.strerr.log`,
           max_memory_restart: `${
             parseFloat(process.env.MAXIMUM_RAM_BYTES) / 1000000
-          }`,
-          node_args: [],
+          }M`,
         });
       });
     }
@@ -141,12 +142,12 @@ Initialize = new Promise(function (resolve, reject) {
   EnvData = `PORT=${randomPort()}
 MAX_RELOADS=5
 USE_SSL=false
-ADMIN_USERNAME=${randomWord()}
-ADMIN_PASSWORD=${GeneratePassword()}
-LOGIN_REQUIRED=true
 MAX_LOG_LINES=1500
 RESTART_DELAY=1000
+LOGIN_REQUIRED=true
 MAX_FILE_UPLOAD_SIZE=500
+ADMIN_USERNAME=${randomWord()}
+ADMIN_PASSWORD=${GeneratePassword()}
 SECRET_PATH=${randomWord()}${randomWord()}
 MAXIMUM_RAM_BYTES=512000000
 MAXIMUM_SSD_BYTES=20000000000
@@ -161,59 +162,53 @@ LOGIN_REQUIRED_MESSAGE=Please Login To Complete This Action`;
         console.log(chalk.green(`〚✔〛Successfuly Wrote Data To .env`));
         require("dotenv").config();
         if (process.env.SECRET_PATH) {
-          if (!fs.existsSync(`./${process.env.SECRET_PATH}`)) {
-            fs.mkdirSync(`./${process.env.SECRET_PATH}`);
-            if (!fs.existsSync(`./${process.env.SECRET_PATH}/logs`)) {
-              fs.mkdirSync(`./${process.env.SECRET_PATH}/logs`);
-            }
-            if (!fs.existsSync(`./${process.env.SECRET_PATH}/Master`)) {
-              fs.mkdir(
-                `./${process.env.SECRET_PATH}/Master`,
-                function (err, data) {
-                  console.log(chalk.blue(`〚≡〛Creating Master Base Code...`));
-                  InsertBase("Master", "Index.js");
-                  console.log(
-                    chalk.green(`〚✔〛Successfuly Created Master Branch`)
-                  );
-                  console.log(
-                    chalk.blue(`〚≡〛Installing Modules For Master...`)
-                  );
-                  Terminal(
-                    `cd ./${process.env.SECRET_PATH}/Master && npm install`
-                  )
-                    .then((data) => {
-                      console.log(
-                        chalk.green(
-                          `〚✔〛Successfuly Installed Modules For Master`
-                        )
-                      );
-                      console.log(
-                        chalk.blue(`〚≡〛Syncing Dashboard, Please Wait...`)
-                      );
-                      console.log(
-                        chalk.green(`〚✔〛Dashboard is Ready To Be Used`)
-                      );
-                      resolve(`Dashboard is Ready To Be Used`);
-                      Sync()
-                        .then((data) => {
-                          console.log(
-                            chalk.green(`〚✔〛Successfuly Synced Dashboard`)
-                          );
-                        })
-                        .catch((err) => {
-                          console.log(chalk.red(`Error Ocured ${err}`));
-                        });
-                    })
-                    .catch((err) => {
-                      console.log(
-                        chalk.red(
-                          `An Error Occured While Installing Modules For Master`
-                        )
-                      );
-                    });
-                }
-              );
-            }
+          if (!fs.existsSync(`./${process.env.SECRET_PATH}/Master`)) {
+            fs.mkdir(
+              `./${process.env.SECRET_PATH}/Master`,
+              function (err, data) {
+                console.log(chalk.blue(`〚≡〛Creating Master Base Code...`));
+                InsertBase("Master", "Index.js");
+                console.log(
+                  chalk.green(`〚✔〛Successfuly Created Master Branch`)
+                );
+                console.log(
+                  chalk.blue(`〚≡〛Installing Modules For Master...`)
+                );
+                Terminal(
+                  `cd ./${process.env.SECRET_PATH}/Master && npm install`
+                )
+                  .then((data) => {
+                    console.log(
+                      chalk.green(
+                        `〚✔〛Successfuly Installed Modules For Master`
+                      )
+                    );
+                    console.log(
+                      chalk.blue(`〚≡〛Syncing Dashboard, Please Wait...`)
+                    );
+                    console.log(
+                      chalk.green(`〚✔〛Dashboard is Ready To Be Used`)
+                    );
+                    resolve(`Dashboard is Ready To Be Used`);
+                    Sync()
+                      .then((data) => {
+                        console.log(
+                          chalk.green(`〚✔〛Successfuly Synced Dashboard`)
+                        );
+                      })
+                      .catch((err) => {
+                        console.log(chalk.red(`Error Ocured ${err}`));
+                      });
+                  })
+                  .catch((err) => {
+                    console.log(
+                      chalk.red(
+                        `An Error Occured While Installing Modules For Master`
+                      )
+                    );
+                  });
+              }
+            );
           }
         }
       });
@@ -227,12 +222,20 @@ LOGIN_REQUIRED_MESSAGE=Please Login To Complete This Action`;
         reject(`Sync Error ${err}`);
       });
   }
-  if (!fs.existsSync(`./server.bat`)) {
+  if (process.env.SECRET_PATH) {
+    if (!fs.existsSync(`./${process.env.SECRET_PATH}`)) {
+      fs.mkdirSync(`./${process.env.SECRET_PATH}`);
+      if (!fs.existsSync(`./${process.env.SECRET_PATH}/logs`)) {
+        fs.mkdirSync(`./${process.env.SECRET_PATH}/logs`);
+      }
+    }
+  }
+  if (!fs.existsSync(`./start.bat`)) {
     console.log(chalk.blue(`〚≡〛Creating Server Startup File...`));
-    fs.open(`./server.bat`, "w", function (err, data) {
+    fs.open(`./start.bat`, "w", function (err, data) {
       fs.writeFile(
-        `./server.bat`,
-        `forever start ${__dirname}/index.js`,
+        `./start.bat`,
+        `pm2 start ${__dirname}/index.js  -i max`,
         (err) => {
           if (err) throw err;
           console.log(

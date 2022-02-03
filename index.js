@@ -57,22 +57,23 @@ app.get("/start/:name", (req, res) => {
         Package = JSON.parse(data);
         pm2.start(
           {
+            watch: false,
+            daemon: false,
             detached: true,
             min_uptime: 5000,
             watch_delay: 5000,
             autorestart: false,
-            name: `${process.env.SECRET_PATH.toUpperCase()}_${req.params.name}`,
-            exp_backoff_restart_delay: 100,
+            watch_ignore: true,
+            lines: process.env.MAX_LOG_LINES,
             max_restarts: process.env.MAX_RELOADS,
             restart_delay: process.env.RESTART_DELAY,
+            name: `${process.env.SECRET_PATH.toUpperCase()}_${req.params.name}`,
             script: `./${process.env.SECRET_PATH}/${req.params.name}/${Package.main}`,
             out_file: `./${process.env.SECRET_PATH}/logs/${req.params.name}.strout.log`,
             error_file: `./${process.env.SECRET_PATH}/logs/${req.params.name}.strerr.log`,
             max_memory_restart: `${
               parseFloat(process.env.MAXIMUM_RAM_BYTES) / 1000000
-            }`,
-            lines: process.env.MAX_LOG_LINES,
-            node_args: [],
+            }M`,
           },
           function (err, apps) {
             if (err) {
