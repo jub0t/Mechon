@@ -34,7 +34,7 @@ Once installation is done, you can change the `.env.example` file name to `.env`
 
 ### Login System
 
-By default the login system is disabled but you can enable it by changing `LOGIN_REQUIRED=false` to `LOGIN_REQUIRED=true` in your `.env` file. Credentials can be set from the panel
+By default the login system is disabled but you can enable it by changing `LOGIN_REQUIRED=false` to `LOGIN_REQUIRED=true` in your `.env` file. Credentials can be set from the env too.
 
 ### Final Setup
 
