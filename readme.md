@@ -1,44 +1,55 @@
-# Guide
+# Discord Bot Panel - DBP
+
+Host and manage & host your discord bots from a web panel, deploy once use anywhere. Please read and follow the guide carefuly to properly setup the panel.
+
+## What's New?
+
+- New & Better UI
+- New stat charts & graphs
+- Web-base terminal/shell added
+- Updated `.env`, new setting options added
+- License changed from `CC-BY-4.0` to `MIT`
+
+## Installation
 
 ```shell
+## Install PM2 Globaly
+npm i pm2 -g
+```
+
+```shell
+## Downlaod Code
 git clone https://github.com/jareer12/DiscordBotPanel.git
+## Open the folder
+cd /path/to/panel
+## Install Required Modules
+npm install
+```
+
+### Env config
+
+Once installation is done, you can change the `.env.example` file name to `.env` and configure it to your liking.
+
+### Login System
+
+By default the login system is disabled but you can enable it by changing `LOGIN_REQUIRED=false` to `LOGIN_REQUIRED=true` in your `.env` file. Credentials can be set from the panel
+
+### Final Setup
+
+Once the installation and configuration is complete we can start our panel and run it. We'll be using `forever` to run the panel, the reason we'll use `forever` is that `forever` can prevent downtime, so in case our panel runs into and error that it can not handle(which it most likely will), `forever` will re-start the panel by itself, preventing downtime.
+
+```shell
+## Open the folder
+cd /path/to/panel
+## Run the panel
+foever start index.js
 ```
 
 ```shell
-cd DiscordBotPanel
+## This can also be used but is not recommended
+cd /path/to/panel && node .
 ```
 
-```shell
-npm install pm2 -g
-```
+### Manual File Interaction
 
-1. Run `npm install`
-2. Run `node .`, and wait for initialization to complete(must). If you stop while initialization, you will have to do it all over again.
-3. Run `node .`, and now your panel is running on a random port(can be changed).
-
-## Customize
-
-1. After intializing, You can edit `.env` to change ram usage, ssd usage, admin pass, admin user, etc.
-2. To change the UI update `tailwinds.config.js` and run `npm run tailwinds`.
-
-If any problems occur, like shell spam, or you can't delete the app folder. Run `taskkill /f /im node.exe`, this will kill all node processes on the machine.
-
-## Themes
-
-comes with white and dark theme.
-
-![Image](./BaseTemplate/home.png)
-![Image](./BaseTemplate/home-dark.png)
-
-## Features
-
-Built/in file-manager and file editor
-
-![Image](./BaseTemplate/file-editor.png)
-![Image](./BaseTemplate/dark-file-manager.png)
-
-## Initialization
-
-Easy setup with a few commands
-
-![Image](./BaseTemplate/init.png)
+If you don't want to use the built-in file manager you can always upload your code to `/bots` directory.

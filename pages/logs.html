@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>My Panel - Home</title>
+    <link rel="stylesheet" href="../file/index.css" />
+    <link rel="icon" href="../file/favicon.png" />
+    <link rel="stylesheet" href="../file/tailwinds.css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="//unicons.iconscout.com/release/v4.0.0/css/line.css" />
+    <script src="//cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="//unpkg.com/@popperjs/core@2"></script>
+    <script src="//unpkg.com/tippy.js@6"></script>
+    <meta charset="UTF-8" />
+</head>
+
+<body class="dark:bg-charade-700 dark:text-gray-300 small-text">
+    <div class="flex flex-col">
+        <div class="flex-1 flex overflow-hidden">
+            <nav aria-label="Sidebar"
+                class="hidden md:block md:flex-shrink-0 h-screen dark:bg-charade-700 md:overflow-y-auto">
+                <div class="relative w-20 flex flex-col p-3 space-y-3" id="sidebar">
+                    <script src="/file/sidebar.js"></script>
+                </div>
+            </nav>
+            <main class="min-w-0 flex-1 lg:flex">
+                <section aria-labelledby="primary-heading"
+                    class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto lg:order-last">
+                    <div class="w-full px-5 py-5">
+                        <div
+                            class="w-full dark:bg-charade-600 space-y-4 dark:text-gray-300 text-gray-600 rounded-md shadow py-5 px-5">
+                            <h1 class="text-gray-600 text-xl font-semibold dark:text-gray-200">Logs Management
+                            </h1>
+                            <div>
+                                <h2>Selected Application</h2>
+                                <select name="" id="delete_logs_app_box"
+                                    class="rounded-md bg-gray-100 dark:bg-charade-500 mt-3 dark:text-gray-300 py-3 px-3 w-full shadow">
+                                    <option value="none" selected disabled>NONE</option>
+                                </select>
+                            </div>
+                            <div class="w-full">
+                                <button class="rounded-md float-right dark:bg-red-500 bg-red-500 text-white py-3 px-10"
+                                    onclick="delete_error_logs()">Delete
+                                    Error Logs</button>
+                                <button
+                                    class="rounded-md bg-red-500 float-right dark:bg-red-500 text-white py-3 mr-3 px-10"
+                                    onclick="delete_logs()">Delete
+                                    Logs</button>
+                                <button class="rounded-md dark:bg-blue-500 bg-blue-500 text-white py-3 px-10"
+                                    onclick="open_selected_logs()">Open Logs</button>
+                            </div>
+                        </div>
+                    </div>
+            </main>
+        </div>
+    </div>
+</body>
+
+<script src="../file/index.js"></script>
+
+
+</html>

@@ -2,25 +2,41 @@
 <html lang="en">
 
 <head>
-  <title>Basilisk - Edit File</title>
+  <title>My Panel - Home</title>
+  <link rel="stylesheet" href="../file/index.css" />
   <link rel="icon" href="../file/favicon.png" />
   <link rel="stylesheet" href="../file/tailwinds.css" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="//unicons.iconscout.com/release/v4.0.0/css/line.css" />
-  <script src="//unpkg.com/codeflask/build/codeflask.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="//unpkg.com/@popperjs/core@2"></script>
+  <script src="//unpkg.com/tippy.js@6"></script>
   <meta charset="UTF-8" />
 </head>
 
-<body class="">
-  <section class="flex flex-wrap justify-center w-full h-screen">
-    <section class="flex flex-wrap justify-center w-full h-screen rounded-md cursor-text">
-      <pre class="w-full" id="display_error_log"></pre>
-    </section>
-  </section>
-</body>
-<script src="https://cdn.jsdelivr.net/npm/slickscript@latest/src/slickscript.min.js"></script>
-<link rel="stylesheet" href="../file/index.css" />
-<script src="../file/index.js"></script>
+<body class="dark:bg-charade-700 dark:text-gray-300 small-text">
+  <div class="flex flex-col">
+    <div class="flex-1 flex overflow-hidden">
+      <nav aria-label="Sidebar"
+        class="hidden md:block md:flex-shrink-0 h-screen dark:bg-charade-700 md:overflow-y-auto">
+        <div class="relative w-20 flex flex-col p-3 space-y-3" id="sidebar">
+          <script src="/file/sidebar.js"></script>
+        </div>
+      </nav>
 
-</html>
+      <main class="min-w-0 flex-1 lg:flex">
+        <section aria-labelledby="primary-heading"
+          class="min-w-0 flex-1 h-full flex p-5 flex-col overflow-y-auto lg:order-last">
+          <h1 id="primary-heading" class="sr-only">Home</h1>
+          <div class="w-full">
+            <pre class="w-full p-5 m-5 rounded bg-charade-600"><code id="display_error_log"></code></pre>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+</body>
+
+<script src="../file/index.js"></script>

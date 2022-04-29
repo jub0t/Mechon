@@ -2,28 +2,45 @@
 <html lang="en">
 
 <head>
-  <title>Basilisk - Edit File</title>
+  <title>My Panel - Home</title>
   <link rel="icon" href="../file/favicon.png" />
   <link rel="stylesheet" href="../file/index.css" />
+  <link rel="stylesheet" href="../file/dracula.css" />
+  <link rel="stylesheet" href="../file/codemirror.css" />
   <link rel="stylesheet" href="../file/tailwinds.css" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="//unicons.iconscout.com/release/v4.0.0/css/line.css" />
-  <script src="//unpkg.com/codeflask/build/codeflask.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="//unpkg.com/@popperjs/core@2"></script>
+  <script src="//unpkg.com/tippy.js@6"></script>
+  <script src="../file/codemirror.js"></script>
+  <script src="../file/syn-js.js"></script>
+
   <meta charset="UTF-8" />
 </head>
 
-<body class="text-perfume-800 text-sm">
-  <section class="flex flex-wrap justify-center w-full">
-    <section class="flex flex-wrap justify-center w-full">
-      <pre
-        class="w-full text-perfume-800"><code class="text-perfume-800" id="content" contenteditable="true"></code></pre>
-    </section>
-  </section>
+<body class="dark:bg-charade-700 dark:text-gray-300 small-text">
+  <div class="flex flex-col">
+    <div class="flex-1 flex overflow-hidden">
+      <nav aria-label="Sidebar"
+        class="hidden md:block md:flex-shrink-0 h-screen dark:bg-charade-700 md:overflow-y-auto">
+        <div class="relative w-20 flex flex-col p-3 space-y-3" id="sidebar">
+          <script src="/file/sidebar.js"></script>
+        </div>
+      </nav>
+      <main class="min-w-0 flex-1 lg:flex p-3 m-3">
+        <section aria-labelledby="primary-heading" class="w-full">
+          <h2>File Auto-Saves</h2>
+          <textarea class="round-editor h-screen" id="content" cols="30" rows="10"></textarea>
+        </section>
+      </main>
+    </div>
+  </div>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/slickscript@latest/src/slickscript.min.js"></script>
+
 <script src="../file/index.js"></script>
+
 
 </html>

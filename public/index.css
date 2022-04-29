@@ -12,7 +12,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #a268f7;
+  background: #3b82f6;
   border-radius: 50px;
 }
 
@@ -58,18 +58,21 @@ body {
   background: #1b1c24 !important;
 }
 .codeflask::-moz-selection {
-  background: #a268f7 !important;
+  background: #3b82f6 !important;
 }
 ::-moz-selection {
   /* Code for Firefox */
-  background: #a268f7 !important;
+  background: #3b82f6 !important;
 }
 
 .codeflask::selection,
 ::selection {
-  background: #a268f7 !important;
+  background: #3b82f6 !important;
 }
 
 .small-text {
   font-size: 12px !important;
+}
+
+*:hover {
 }

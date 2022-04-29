@@ -16,34 +16,30 @@
   <meta charset="UTF-8" />
 </head>
 
-<body>
-  <section class="flex flex-wrap justify-center mt- w-full text-sm">
+<body class="text-gray-700 dark:text-white dark:bg-charade-700">
+  <section class="flex flex-wrap justify-center w-full text-sm">
     <section class="flex flex-wrap justify-center w-full cursor-text">
-      <div class="flex flex-wrap justify-center space-y-4 w-6/12 mt-8 rounded-md shadow bg-gray-100 py-10">
-        <input type="username" id="admin_user_box" type="text" class="w-11/12 rounded-md py-3 px-3 shadow"
-          placeholder="Username" />
-        <input type="password" id="admin_pass_box" type="text" class="w-11/12 rounded-md py-3 px-3 shadow"
-          placeholder="Password" />
-        <button class="rounded-md bg-white text-gray-500 font-bold py-3 px-12 shadow rounded-md"
-          onclick="admin_login()">
-          LOGIN
-        </button>
+      <div
+        class="flex flex-wrap justify-center space-y-4 xl:w-4/12 mt-8 rounded-md shadow dark:bg-charade-600 bg-gray-50 py-5">
+        <div class="w-11/12">
+          <h2 class="font-bold text-5xl">DBP</h2>
+          <h2 class="">Login to your Discord bot panel.</h2>
+        </div>
+        <input type="username" id="admin_user_box" type="text"
+          class="dark:bg-charade-500 w-11/12 rounded-md py-3 px-3 shadow" placeholder="Username" />
+        <input type="password" id="admin_pass_box" type="text"
+          class="dark:bg-charade-500 w-11/12 rounded-md py-3 px-3 shadow" placeholder="Password" />
+        <div class="w-11/12">
+          <button
+            class="dark:bg-blue dark:text-white rounded-md bg-white text-gray-500 font-bold py-3 px-12 shadow rounded-md"
+            onclick="admin_login()">
+            LOGIN
+          </button>
+        </div>
       </div>
     </section>
   </section>
 </body>
-<style>
-  @import url("https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
-
-  body {
-    font-family: "Karla", sans-serif;
-  }
-
-  * {
-    font-size: 13px;
-  }
-</style>
-
 <script src="../file/index.js"></script>
 
 </html>

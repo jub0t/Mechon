@@ -5,3 +5,10 @@ server.bat
 .gitignore
 OneProperly
 .env
+*.ts
+.gitattributes
+bots/*/
+.gitignore
+tsconfig.json
+database/*
+tailwind.config.js
