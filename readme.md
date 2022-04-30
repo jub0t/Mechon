@@ -17,6 +17,8 @@ Host and manage & host your discord bots from a web panel, deploy once use anywh
 ```shell
 ## Install PM2 Globaly
 npm i pm2 -g
+## Install forever Globaly
+npm i forever -g
 ```
 
 ```shell
