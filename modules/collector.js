@@ -2,11 +2,29 @@ require("dotenv").config();
 var pm2 = require("pm2");
 var fs = require("fs");
 var up = __dirname.replace("modules", "");
-if (!fs.existsSync("".concat(up, "/database/ram_usage.json"))) {
-    fs.openSync("".concat(up, "/database/ram_usage.json"), "wr");
+try {
+    if (!fs.existsSync("".concat(up, "/database"))) {
+        fs.mkdirSync("".concat(up, "/database"));
+    }
 }
-if (!fs.existsSync("".concat(up, "/database/cpu_usage.json"))) {
-    fs.openSync("".concat(up, "/database/cpu_usage.json"), "wr");
+catch (_a) {
+    console.log("Please manually create a folder called /database");
+}
+try {
+    if (!fs.existsSync("".concat(up, "/database/ram_usage.json"))) {
+        fs.openSync("".concat(up, "/database/ram_usage.json"), "w");
+    }
+}
+catch (_b) {
+    console.log("Please manually create a file at /database/ram_usage.json");
+}
+try {
+    if (!fs.existsSync("".concat(up, "/database/cpu_usage.json"))) {
+        fs.openSync("".concat(up, "/database/cpu_usage.json"), "w");
+    }
+}
+catch (_c) {
+    console.log("Please manually create a file at /database/cpu_usage.json");
 }
 setInterval(function () {
     try {

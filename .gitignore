@@ -10,5 +10,5 @@ OneProperly
 bots/*/
 .gitignore
 tsconfig.json
-database/*
+database/*.json
 tailwind.config.js

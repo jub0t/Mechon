@@ -11,7 +11,8 @@
   "scripts": {
     "tsc": "tsc --watch",
     "tailwinds": "npx tailwindcss -i ./public/build.css -o ./public/tailwinds.css --watch --minify",
-    "generate_tailwinds": "npx tailwindcss -i ./public/build.css -o ./public/tailwinds.css --minify"
+    "generate_tailwinds": "npx tailwindcss -i ./public/build.css -o ./public/tailwinds.css --minify",
+    "all": "npm run tailwinds && npm run tsc && node ."
   },
   "keywords": [
     "discord",

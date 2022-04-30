@@ -14,13 +14,13 @@ var fs = require("fs");
 var app = express();
 var SETTINGS = require("./settings.json");
 var Blacklist = SETTINGS.BLACK_LISTED_DIRS;
-if (process.env.SECRET_PATH) {
-    app.use(session({
-        resave: true,
-        saveUninitialized: true,
-        secret: process.env.SECRET_PATH,
-    }));
-}
+app.set("trust proxy", true);
+app.use(session({
+    proxy: true,
+    resave: false,
+    saveUninitialized: true,
+    secret: process.env.SECRET_PATH,
+}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ extended: true }));
 app.use(Uploader());
