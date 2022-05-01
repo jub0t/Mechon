@@ -1,7 +1,8 @@
 require("dotenv").config();
-var Modules = require("./modules/loader");
 var fastFolderSize = require("fast-folder-size");
 var Uploader = require("express-fileupload");
+var Modules = require("./modules/loader");
+var cookieSession = require("cookie-session");
 var System = require("systeminformation");
 var Terminal = require("system-commands");
 var session = require("express-session");
@@ -14,15 +15,17 @@ var fs = require("fs");
 var app = express();
 var SETTINGS = require("./settings.json");
 var Blacklist = SETTINGS.BLACK_LISTED_DIRS;
-app.set("trust proxy", true);
-app.use(session({
+var sessionConf = {
     proxy: true,
     resave: false,
     saveUninitialized: true,
     secret: process.env.SECRET_PATH,
-}));
+    store: new session.MemoryStore(),
+};
+app.set("trust proxy", true);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ extended: true }));
+app.use(session(sessionConf));
 app.use(Uploader());
 app.use("/login", require("./routes/login"));
 app.use("/file_content", require("./routes/file_content"));
@@ -37,6 +40,7 @@ app.use("/restart", require("./routes/restart"));
 app.use("/terminal", require("./routes/terminal"));
 app.use("/upload_file", require("./routes/upload_file"));
 app.use("/usage", require("./routes/usage"));
+app.use("/stop", require("./routes/stop"));
 app.use("/start", require("./routes/start"));
 app.use("/error_log", require("./routes/error_log"));
 app.use("/panel_stats", require("./routes/panel_stats"));
@@ -70,7 +74,7 @@ app.post("/update_file", function (req, res) {
         }));
         return;
     }
-    Path = "./".concat(process.env.SECRET_PATH, "/").concat(req.query.path).replace(/\/\//gi, "/");
+    var Path = "./".concat(process.env.SECRET_PATH, "/").concat(req.query.path).replace(/\/\//gi, "/");
     if (fs.existsSync(Path)) {
         fs.writeFile(Path, req.body.content, function (err) {
             if (err)
@@ -94,10 +98,10 @@ app.post("/update_main", function (req, res) {
             if (!req.body.new_main.toString().endsWith(".js")) {
                 req.body.new_main = "".concat(req.body.new_main, ".js");
             }
-            Path = "./".concat(process.env.SECRET_PATH, "/").concat(req.body.name, "/package.json");
+            var Path = "./".concat(process.env.SECRET_PATH, "/").concat(req.body.name, "/package.json");
             if (fs.existsSync(Path)) {
                 fs.readFile(Path, "utf8", function (err, data) {
-                    Data = JSON.parse(data);
+                    var Data = JSON.parse(data);
                     Data.main = req.body.new_main;
                     if (!fs.existsSync("./".concat(process.env.SECRET_PATH, "/").concat(req.body.name, "/").concat(req.body.new_main))) {
                         fs.open("./".concat(process.env.SECRET_PATH, "/").concat(req.body.name, "/").concat(req.body.new_main), function (err, data) { });
@@ -134,7 +138,7 @@ app.post("/update_main", function (req, res) {
 });
 app.post("/create_file", function (req, res) {
     if (req.body.path) {
-        Path = "./".concat(process.env.SECRET_PATH, "/").concat(req.body.path);
+        var Path = "./".concat(process.env.SECRET_PATH, "/").concat(req.body.path);
         if (fs.existsSync(Path) && fs.lstatSync(Path).isFile()) {
             res.end(JSON.stringify({
                 Success: false,
@@ -158,7 +162,7 @@ app.post("/create_file", function (req, res) {
     }
 });
 app.post("/create_folder", function (req, res) {
-    NewFolderPath = "./".concat(process.env.SECRET_PATH, "/").concat(req.body.path);
+    var NewFolderPath = "./".concat(process.env.SECRET_PATH, "/").concat(req.body.path);
     if (req.body.path) {
         if (fs.existsSync(NewFolderPath) &&
             fs.lstatSync(NewFolderPath).isDirectory()) {
@@ -185,7 +189,7 @@ app.post("/create_folder", function (req, res) {
 });
 app.post("/delete_path", function (req, res) {
     if (req.body.data) {
-        Data = req.body.data;
+        var Data = req.body.data;
         for (var index = 0; index < Data.length; index++) {
             var NewObject = Data[index];
             var ObjectPath = "./".concat(process.env.SECRET_PATH, "/").concat(NewObject);
@@ -314,5 +318,5 @@ app.get("/file/:name", function (req, res) {
     }
 });
 app.listen(process.env.PORT, function () {
-    console.log(chalk.cyan("\u301A\u2707\u301BDashboard Is Open On http://localhost:".concat(process.env.PORT || 3434)));
+    console.log(chalk.hex("#3082CF")(fs.readFileSync("./art.txt", "utf-8") || "", "\n\n[!] Dashboard Is Open On http://localhost:".concat(process.env.PORT || 2278)));
 });

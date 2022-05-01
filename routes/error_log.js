@@ -11,6 +11,7 @@ var https = require("https");
 var pm2 = require("pm2");
 var fs = require("fs");
 var router = express.Router();
+var up = __dirname.replace("routes", "");
 router.get("/:name", function (req, res) {
     if (process.env.LOGIN_REQUIRED == "true") {
         if (!req.session.username) {
@@ -21,8 +22,8 @@ router.get("/:name", function (req, res) {
             return;
         }
     }
-    if (fs.existsSync("../".concat(process.env.SECRET_PATH, "/logs/").concat(req.params.name, ".strerr.log"))) {
-        fs.readFile("../".concat(process.env.SECRET_PATH, "/logs/").concat(req.params.name, ".strerr.log"), "utf-8", function (err, log) {
+    if (fs.existsSync("".concat(up, "/").concat(process.env.SECRET_PATH, "/logs/").concat(req.params.name, ".strerr.log"))) {
+        fs.readFile("".concat(up, "/").concat(process.env.SECRET_PATH, "/logs/").concat(req.params.name, ".strerr.log"), "utf-8", function (err, log) {
             res.end(JSON.stringify({
                 Success: true,
                 Message: "Successfuly Fetched Error Log",

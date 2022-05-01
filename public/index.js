@@ -466,7 +466,9 @@ function delete_error_logs() {
 }
 
 function stop_app(Name) {
-  fetch(`../stop/${Name}`)
+  fetch(`../stop/${Name}`, {
+    method: "POST",
+  })
     .then((response) => {
       return response.json();
     })
@@ -1046,14 +1048,18 @@ function restart_app(Name) {
 
 if (document.getElementById("display_log")) {
   if (Query.get("name")) {
-    fetch(`../log/${Query.get("name")}`)
+    fetch(`/log/${Query.get("name")}`)
       .then((response) => {
         return response.json();
       })
       .then((myJson) => {
-        document.getElementById("display_log").innerHTML =
-          myJson.Data ||
-          `## Unable to find logs for this application\nMaybe this bot does not exist or the log file is missing/broken`;
+        if (myJson.Data != null) {
+          document.getElementById("display_log").innerHTML = myJson.Data;
+        } else {
+          document.getElementById(
+            "display_log"
+          ).innerHTML = `## Unable to find logs for this application\nMaybe this bot does not exist or the log file is missing/broken`;
+        }
       });
   }
 }
@@ -1065,15 +1071,13 @@ if (document.getElementById("display_error_log")) {
       return response.json();
     })
     .then((myJson) => {
-      const editorElem = document.getElementById("display_error_log");
-      const flask = new CodeFlask(editorElem, {
-        language: `language-shell`,
-        lineNumbers: true,
-      });
-      flask.updateCode(myJson.Data);
-      flask.onUpdate((code) => {
-        saveFile(code);
-      });
+      if (myJson.Data != null) {
+        document.getElementById("display_error_log").innerHTML = myJson.Data;
+      } else {
+        document.getElementById(
+          "display_error_log"
+        ).innerHTML = `## Unable to find logs for this application\nMaybe this bot does not exist or the log file is missing/broken`;
+      }
     });
 }
 function open_selected_logs() {

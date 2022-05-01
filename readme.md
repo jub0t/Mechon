@@ -2,7 +2,7 @@
 
 Host and manage our discord bots from a web panel, deploy once use anywhere. Please read and follow the guide carefuly to properly setup the panel.
 
-![Image](/preview.svg)
+![Image](/preview.jpg)
 
 ## What's New?
 
