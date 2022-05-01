@@ -1,6 +1,6 @@
 # Discord Bot Panel - DBP
 
-Host and manage our discord bots from a web panel, deploy once use anywhere. Please read and follow the guide carefuly to properly setup the panel.
+Host and manage your discord bots from a web panel, deploy once use anywhere. Please read and follow the guide carefuly to properly setup the panel.
 
 ![Image](/preview.jpg)
 
