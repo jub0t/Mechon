@@ -1,6 +1,6 @@
 # Discord Bot Panel - DBP
 
-Host and manage your discord bots from a web panel, deploy once use anywhere. Please read and follow the guide carefuly to properly setup the panel.
+Host and manage your discord bots from a web panel, deploy once use anywhere. Please read and follow the guide carefully to properly setup the panel.
 
 ![Image](/preview.jpg)
 
@@ -8,7 +8,7 @@ Host and manage your discord bots from a web panel, deploy once use anywhere. Pl
 
 - New & Better UI
 - New stat charts & graphs
-- Web-base terminal/shell added
+- Web-based terminal/shell added
 - Updated `.env`, new setting options added
 - License changed from `CC-BY-4.0` to `MIT`
 
@@ -40,13 +40,13 @@ By default the login system is disabled but you can enable it by changing `LOGIN
 
 ### Final Setup
 
-Once the installation and configuration is complete we can start our panel and run it. We'll be using `forever` to run the panel, the reason we'll use `forever` is that `forever` can prevent downtime, so in case our panel runs into and error that it can not handle(which it most likely will), `forever` will re-start the panel by itself, preventing downtime.
+Once the installation and configuration is complete we can start our panel and run it. We'll be using `forever` to run the panel, the reason we'll use `forever` is that it can prevent downtime, so in case our panel runs into and error that it can not handle(which it most likely will), `forever` will re-start the panel by itself, preventing downtime.
 
 ```shell
 ## Open the folder
 cd /path/to/panel
 ## Run the panel
-foever start index.js
+forever start index.js
 ```
 
 ```shell
