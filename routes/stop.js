@@ -21,7 +21,8 @@ router.post("/:name", function (req, res) {
             return;
         }
     }
-    pm2.stop("".concat(process.env.SECRET_PATH.toUpperCase(), "_").concat(req.params.name), function (err, apps) {
+    console.log("".concat(process.env.SECRET_PATH.toUpperCase(), "_").concat(req.params.name));
+    pm2.stop("".concat(process.env.PROCESS_SECRET.toUpperCase(), "_").concat(req.params.name), function (err, apps) {
         if (err) {
             JSON.stringify(err);
         }

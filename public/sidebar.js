@@ -21,7 +21,7 @@ document.getElementById("sidebar").innerHTML = `<a
     </a>
     <a
       href="/create"
-      tip="Manage Bots"
+      tip="Create Bot"
       class="text-gray-400 dark:hover:bg-charade-600 hover:bg-gray-100 transition duration-300 flex-shrink-0 inline-flex items-center justify-center h-14 w-14 rounded-lg"
     >
       <svg
@@ -143,4 +143,13 @@ document.getElementById("sidebar").innerHTML = `<a
                                             d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                                     </svg>`
                                     }</button>
+    <button
+     onclick="logout()"
+      tip="Logout From Dashboard"
+      class="text-gray-400 dark:hover:bg-opacity-20 dark:hover:bg-red-300 dark:hover:text-white hover:bg-gray-100 transition duration-300 hover:bg-gray-100 transition duration-300 flex-shrink-0 inline-flex items-center justify-center h-14 w-14 rounded-lg"
+    >
+<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+</svg>
+    </button>
 `;

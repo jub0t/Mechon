@@ -195,6 +195,12 @@ async function renderDashboard() {
       if (document.getElementById("total_bots_count")) {
         document.getElementById("total_bots_count").innerHTML = Apps.length;
       }
+      if (document.getElementById("delete_app_box")) {
+        delete_app_box.innerHTML = null;
+      }
+      if (document.getElementById("delete_logs_app_box")) {
+        delete_logs_app_box.innerHTML = null;
+      }
       Apps.forEach((Process) => {
         AppName = `${Process.App.Name || "Unknown"}`;
         if (document.getElementById("delete_app_box")) {
@@ -822,7 +828,7 @@ function create_file() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          path: `${Query.get("file")}/${value}`,
+          path: `${Query.get("file") || ""}/${value}`,
         }),
       })
         .then((res) => res.json())
@@ -1166,4 +1172,35 @@ function delete_selected() {
   } else {
     Side_Err("You Havn't Selected Any Files To Delete.");
   }
+}
+
+function logout() {
+  fetch("/logout", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ confirm: true }),
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      if (res.Success) {
+        window.reload();
+      }
+    });
+}
+
+function start_app(Name) {
+  fetch(`../start/${Name}`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((myJson) => {
+      renderDashboard();
+      if (myJson.Success) {
+        Side_Success(myJson.Message);
+      } else {
+        Side_Err(myJson.Message);
+      }
+    });
 }

@@ -1,17 +1,9 @@
 var Modules = require("../modules/loader");
-var fastFolderSize = require("fast-folder-size");
-var Uploader = require("express-fileupload");
-var System = require("systeminformation");
-var Terminal = require("system-commands");
-var session = require("express-session");
-var bodyParser = require("body-parser");
-var express = require("express");
-var chalk = require("chalk");
-var https = require("https");
-var pm2 = require("pm2");
-var fs = require("fs");
-var router = express.Router();
 var up = __dirname.replace("routes", "");
+var express = require("express");
+var router = express.Router();
+var chalk = require("chalk");
+var fs = require("fs");
 router.get("/", function (req, res) {
     if (process.env.LOGIN_REQUIRED == "true") {
         if (!req.session.username) {

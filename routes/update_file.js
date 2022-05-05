@@ -11,39 +11,30 @@ var https = require("https");
 var pm2 = require("pm2");
 var fs = require("fs");
 var router = express.Router();
+var up = __dirname.replace("routes", "");
 router.post("/", function (req, res) {
-    if (!req.body.username) {
+    if (!req.body.content) {
         res.end(JSON.stringify({
-            Success: false,
-            Message: "No Username Given",
+            Success: true,
+            Message: "No File Content To Update Found",
         }));
         return;
     }
-    if (!req.body.username) {
-        res.end(JSON.stringify({
-            Success: false,
-            Message: "You forgot to give a password",
-        }));
-        return;
-    }
-    if (req.body.username == process.env.ADMIN_USERNAME &&
-        req.body.password == process.env.ADMIN_PASSWORD) {
-        req.session.username = req.body.username;
-        console.log(req.session);
-        req.session.save(function (err) {
-            if (err) {
-                console.log(err);
-            }
+    var Path = "./".concat(process.env.SECRET_PATH, "/").concat(req.query.path).replace(/\/\//gi, "/");
+    if (fs.existsSync(Path)) {
+        fs.writeFile(Path, req.body.content, function (err) {
+            if (err)
+                throw err;
             res.end(JSON.stringify({
                 Success: true,
-                Message: "Successfuly Logged in",
+                Message: "Successfuly Updated File",
             }));
         });
     }
     else {
         res.end(JSON.stringify({
             Success: false,
-            Message: "Wrong Username/Password",
+            Message: "file is broken or does not exist",
         }));
     }
 });

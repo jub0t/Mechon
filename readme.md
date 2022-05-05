@@ -57,3 +57,7 @@ cd /path/to/panel && node .
 ### Manual File Interaction
 
 If you don't want to use the built-in file manager you can always upload your code to `/bots` directory.
+
+### Contribution
+
+Pull requests are appretiated, anything will help even the smallest typos.

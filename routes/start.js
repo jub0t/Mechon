@@ -11,6 +11,7 @@ var https = require("https");
 var pm2 = require("pm2");
 var fs = require("fs");
 var router = express.Router();
+var up = __dirname.replace("routes", "");
 router.get("/:name", function (req, res) {
     if (process.env.LOGIN_REQUIRED == "true") {
         if (!req.session.username) {
@@ -21,9 +22,9 @@ router.get("/:name", function (req, res) {
             return;
         }
     }
-    PackageFile = "../".concat(process.env.SECRET_PATH, "/").concat(req.params.name, "/package.json");
+    var PackageFile = "".concat(up, "/").concat(process.env.SECRET_PATH, "/").concat(req.params.name, "/package.json");
     if (fs.existsSync(PackageFile)) {
-        if (fs.existsSync("../".concat(process.env.SECRET_PATH, "/").concat(req.params.name))) {
+        if (fs.existsSync("".concat(up, "/").concat(process.env.SECRET_PATH, "/").concat(req.params.name))) {
             fs.readFile(PackageFile, "utf8", function (err, data) {
                 if (err) {
                     JSON.stringify({ Success: true, Message: err });
@@ -40,10 +41,10 @@ router.get("/:name", function (req, res) {
                     lines: process.env.MAX_LOG_LINES,
                     max_restarts: process.env.MAX_RELOADS,
                     restart_delay: process.env.RESTART_DELAY,
-                    name: "".concat(process.env.SECRET_PATH.toUpperCase(), "_").concat(req.params.name),
-                    script: "../".concat(process.env.SECRET_PATH, "/").concat(req.params.name, "/").concat(Package.main),
-                    out_file: "../".concat(process.env.SECRET_PATH, "/logs/").concat(req.params.name, ".strout.log"),
-                    error_file: "../".concat(process.env.SECRET_PATH, "/logs/").concat(req.params.name, ".strerr.log"),
+                    name: "".concat(process.env.PROCESS_SECRET.toUpperCase(), "_").concat(req.params.name),
+                    script: "".concat(up, "/").concat(process.env.SECRET_PATH, "/").concat(req.params.name, "/").concat(Package.main),
+                    out_file: "".concat(up, "/").concat(process.env.SECRET_PATH, "/logs/").concat(req.params.name, ".strout.log"),
+                    error_file: "".concat(up, "/").concat(process.env.SECRET_PATH, "/logs/").concat(req.params.name, ".strerr.log"),
                     max_memory_restart: "".concat(parseFloat(process.env.MAXIMUM_RAM_BYTES) / 1000000, "M"),
                 }, function (err, apps) {
                     if (err) {
@@ -66,7 +67,7 @@ router.get("/:name", function (req, res) {
     else {
         res.end(JSON.stringify({
             Success: false,
-            Message: "Application is Broken, Please Delete \"".concat(req.params.name, "\" From File Manager & Re-create The Application"),
+            Message: "Package.json for this app is invalid, please fix it or run \"cd ".concat(PackageFile.replace("../", __dirname), " && npm init -y\" in terminal."),
         }));
     }
 });

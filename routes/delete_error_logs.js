@@ -5,13 +5,13 @@ var router = express.Router();
 var chalk = require("chalk");
 var fs = require("fs");
 router.post("/", function (req, res) {
-    if (fs.existsSync("./".concat(process.env.SECRET_PATH, "/logs/").concat(req.body.name, ".strout.log"))) {
-        fs.writeFile("./".concat(process.env.SECRET_PATH, "/logs/").concat(req.body.name, ".strout.log"), "", function (err) {
+    if (fs.existsSync("./".concat(process.env.SECRET_PATH, "/logs/").concat(req.body.name, ".strerr.log"))) {
+        fs.writeFile("./".concat(process.env.SECRET_PATH, "/logs/").concat(req.body.name, ".strerr.log"), "", function (err) {
             if (err)
                 throw err;
             res.end(JSON.stringify({
                 Success: true,
-                Message: "Successfuly Deleted Logs",
+                Message: "Successfuly Deleted Error Logs",
             }));
         });
     }

@@ -1,31 +1,31 @@
 {
-  "name": "basilisk",
-  "version": "1.1.0",
-  "description": "Node.js Discord Bot Manager Dashboard & Monitor",
+  "name": "dbp",
+  "version": "1.2.0",
+  "description": "🎉 Manage your discord bots and node.js scripts with a web panel.",
   "main": "index.js",
-  "repository": "git+https://github.com/jareer12/BASILISK.git",
+  "repository": "git+https://github.com/jareer12/DiscordBotPanel.git",
   "bugs": {
-    "url": "https://github.com/jareer12/BASILISK/issues"
+    "url": "https://github.com/jareer12/DiscordBotPanel/issues"
   },
-  "homepage": "https://github.com/jareer12/BASILISK#readme",
+  "homepage": "https://github.com/jareer12/DiscordBotPanel#readme",
   "scripts": {
     "tsc": "tsc --watch",
     "tailwinds": "npx tailwindcss -i ./public/build.css -o ./public/tailwinds.css --watch --minify",
-    "generate_tailwinds": "npx tailwindcss -i ./public/build.css -o ./public/tailwinds.css --minify",
-    "all": "npm run tailwinds && npm run tsc && node ."
+    "generate_tailwinds": "npx tailwindcss -i ./public/build.css -o ./public/tailwinds.css --minify"
   },
   "keywords": [
     "discord",
     "discord bot",
-    "manager"
+    "manager",
+    "discord bot panel",
+    "dbp"
   ],
   "author": "jareer12",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.19.1",
     "chalk": "^2.4.2",
-    "codemirror": "^5.65.3",
-    "cookie-session": "^2.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "express-fileupload": "^1.2.1",
@@ -36,9 +36,7 @@
     "pm2": "^5.1.2",
     "system-commands": "^1.1.7",
     "systeminformation": "^5.9.17",
-    "typescript": "^4.6.3",
-    "undefined": "^0.1.0",
-    "xterm-addon-fit": "^0.5.0"
+    "typescript": "^4.6.3"
   },
   "devDependencies": {
     "@types/node": "^17.0.27"
