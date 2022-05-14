@@ -75,6 +75,5 @@ server  {
 
 ### Hosting
 
-<small>Sign-up from my refer ink for a **100$** bonus</small><br>
-
+<small>Sign-up from my refer link for a **100$** bonus</small><br>
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%203.svg)](https://www.digitalocean.com/?refcode=bcc56aadc190&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
