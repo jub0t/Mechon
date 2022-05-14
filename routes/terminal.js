@@ -1,3 +1,4 @@
+require("dotenv").config();
 var Modules = require("../modules/loader");
 var exec = require("child_process").exec;
 var session = require("express-session");
@@ -6,45 +7,35 @@ var pm2 = require("pm2");
 var fs = require("fs");
 var router = express.Router();
 router.post("/run", function (req, res) {
-    if (req.body.command) {
-        exec(req.body.command, function (error, stdout, stderr) {
-            if (!stdout || stdout == "") {
-                res.end(JSON.stringify({
-                    Success: true,
-                    Data: "'".concat(req.body.command, "' is not recognized as an internal or external command"),
-                }));
-            }
-            //   if (error) {
-            //     res.end(
-            //       JSON.stringify({
-            //         Success: false,
-            //         Message: "Internal server error occured",
-            //         Data: error,
-            //       })
-            //     );
-            //     return;
-            //   }
-            //   if (stderr) {
-            //     res.end(
-            //       JSON.stringify({
-            //         Success: false,
-            //         Message: `stderr... ${stderr}`,
-            //         Data: error,
-            //       })
-            //     );
-            //     return;
-            //   }
-            res.end(JSON.stringify({
-                Success: true,
-                Message: "Successfuly Ran Command",
-                Data: stdout,
-            }));
-        });
+    if (process.env.TERMINAL_ENABLED == "true") {
+        if (req.body.command) {
+            exec(req.body.command, function (error, stdout, stderr) {
+                if (!stdout || stdout == "" || error || stderr) {
+                    res.end(JSON.stringify({
+                        Success: true,
+                        Data: "'".concat(req.body.command, "' is not recognized as an internal or external command"),
+                    }));
+                }
+                else {
+                    res.end(JSON.stringify({
+                        Success: true,
+                        Message: "Successfuly Ran Command",
+                        Data: stdout,
+                    }));
+                }
+            });
+        }
+        else {
+            res.json({
+                Success: false,
+                Message: "No command entered",
+            });
+        }
     }
     else {
-        JSON.stringify({
+        res.json({
             Success: false,
-            Message: "No command entered",
+            Message: "Shell/Terminal access for this server is disabled",
         });
     }
 });
