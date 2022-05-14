@@ -32,6 +32,15 @@ npm install
 mv .env.example .env
 ```
 
+### Demo
+
+[https://server.jubot.site/](https://server.jubot.site/create)
+
+```env
+Username: admin
+Password: admin
+```
+
 ### Env config
 
 Once installation is done, you can change the `.env.example` file name to `.env` and configure it to your liking.
