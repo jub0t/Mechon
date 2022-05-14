@@ -27,133 +27,54 @@ app.use(bodyParser.json({ extended: true }));
 app.use(session(sessionConf));
 app.use(Uploader());
 app.use(cors());
-app.use("/log", require("./routes/log"));
-app.use("/dirs", require("./routes/dirs"));
-app.use("/stop", require("./routes/stop"));
-app.use("/info", require("./routes/info"));
-app.use("/start", require("./routes/start"));
-app.use("/login", require("./routes/login"));
-app.use("/login", require("./routes/login"));
-app.use("/usage", require("./routes/usage"));
-app.use("/restart", require("./routes/restart"));
-app.use("/terminal", require("./routes/terminal"));
-app.use("/dir_size", require("./routes/dir_size"));
-app.use("/list-apps", require("./routes/list-apps"));
-app.use("/error_log", require("./routes/error_log"));
-app.use("/rename_dir", require("./routes/rename_dir"));
-app.use("/create_app", require("./routes/create_app"));
-app.use("/reload_apps", require("./routes/reload_apps"));
-app.use("/panel_stats", require("./routes/panel_stats"));
-app.use("/delete_logs", require("./routes/delete_logs"));
-app.use("/npm_install", require("./routes/npm_install"));
-app.use("/create_file", require("./routes/create_file"));
-app.use("/update_main", require("./routes/update_main"));
-app.use("/upload_file", require("./routes/upload_file"));
-app.use("/file_content", require("./routes/file_content"));
-app.use("/create_folder", require("./routes/create_folder"));
-app.use("/install_package", require("./routes/install_package"));
-app.use("/delete_error_logs", require("./routes/delete_error_logs"));
-app.post("/delete_path", function (req, res) {
-    if (req.body.data) {
-        var Data = req.body.data;
-        for (var index = 0; index < Data.length; index++) {
-            var NewObject = Data[index];
-            var ObjectPath = "./".concat(process.env.SECRET_PATH, "/").concat(NewObject);
-            if (ObjectPath == "./".concat(process.env.SECRET_PATH, "/logs")) {
-                res.end(JSON.stringify({
-                    Success: false,
-                    Message: "Access Denied By Server.",
-                }));
-            }
-            try {
-                if (fs.lstatSync(ObjectPath).isDirectory()) {
-                    try {
-                        fs.rmdirSync(ObjectPath, { recursive: true, force: true });
-                    }
-                    catch (err) {
-                        console.error(err);
-                    }
-                }
-                else {
-                    try {
-                        fs.unlink(ObjectPath, function (err) {
-                            if (err)
-                                throw err;
-                        });
-                    }
-                    catch (err) {
-                        console.error(err);
-                    }
-                }
-            }
-            catch (_a) { }
-        }
-        res.end(JSON.stringify({
-            Success: true,
-            Message: "Successfuly Deleted Files/Folders.",
-        }));
-    }
-    else {
-        res.end(JSON.stringify({
-            Success: false,
-            Message: "No Folder/Files Proivded To Delete",
-        }));
-    }
-});
-app.post("/delete_app", function (req, res) {
-    if (req.body.name) {
-        if (fs.existsSync("./".concat(process.env.SECRET_PATH, "/").concat(req.body.name))) {
-            fs.unlink("./".concat(process.env.SECRET_PATH, "/logs/").concat(req.body.name, ".strout.log"), function (err, data) { });
-            fs.unlink("./".concat(process.env.SECRET_PATH, "/logs/").concat(req.body.name, ".strerr.log"), function (err, data) { });
-            pm2.stop("".concat(process.env.PROCESS_SECRET.toUpperCase(), "_").concat(req.body.name), function (err, info) {
-                pm2.delete("".concat(process.env.PROCESS_SECRET.toUpperCase(), "_").concat(req.body.name));
-                if (err) {
-                    res.end(JSON.stringify({
-                        Success: false,
-                        Message: "An Error Occured While Deleting App",
-                    }));
-                }
-                else {
-                    Modules.Sync()
-                        .then(function (data) {
-                        fs.rmdirSync("./".concat(process.env.SECRET_PATH, "/").concat(req.body.name), {
-                            recursive: true,
-                            force: true,
-                        });
-                        res.end(JSON.stringify({
-                            Success: true,
-                            Message: "Successfuly Deleted Discord Bot",
-                        }));
-                    })
-                        .catch(function (err) {
-                        res.end(JSON.stringify({
-                            Success: false,
-                            Message: "Looks Like An Error Occured Deleting Discord Bot",
-                        }));
-                    });
-                }
-            });
+app.use("/log", require("".concat(__dirname, "/routes/log")));
+app.use("/dirs", require("".concat(__dirname, "/routes/dirs")));
+app.use("/stop", require("".concat(__dirname, "/routes/stop")));
+app.use("/info", require("".concat(__dirname, "/routes/info")));
+app.use("/file", require("".concat(__dirname, "/routes/file")));
+app.use("/start", require("".concat(__dirname, "/routes/start")));
+app.use("/login", require("".concat(__dirname, "/routes/login")));
+app.use("/login", require("".concat(__dirname, "/routes/login")));
+app.use("/usage", require("".concat(__dirname, "/routes/usage")));
+app.use("/restart", require("".concat(__dirname, "/routes/restart")));
+app.use("/terminal", require("".concat(__dirname, "/routes/terminal")));
+app.use("/dir_size", require("".concat(__dirname, "/routes/dir_size")));
+app.use("/list-apps", require("".concat(__dirname, "/routes/list-apps")));
+app.use("/error_log", require("".concat(__dirname, "/routes/error_log")));
+app.use("/rename_dir", require("".concat(__dirname, "/routes/rename_dir")));
+app.use("/delete_app", require("".concat(__dirname, "/routes/delete_app")));
+app.use("/create_app", require("".concat(__dirname, "/routes/create_app")));
+app.use("/reload_apps", require("".concat(__dirname, "/routes/reload_apps")));
+app.use("/panel_stats", require("".concat(__dirname, "/routes/panel_stats")));
+app.use("/delete_logs", require("".concat(__dirname, "/routes/delete_logs")));
+app.use("/npm_install", require("".concat(__dirname, "/routes/npm_install")));
+app.use("/create_file", require("".concat(__dirname, "/routes/create_file")));
+app.use("/update_main", require("".concat(__dirname, "/routes/update_main")));
+app.use("/upload_file", require("".concat(__dirname, "/routes/upload_file")));
+app.use("/delete_[ath]", require("".concat(__dirname, "/routes/delete_logs")));
+app.use("/file_content", require("".concat(__dirname, "/routes/file_content")));
+app.use("/create_folder", require("".concat(__dirname, "/routes/create_folder")));
+app.use("/install_package", require("".concat(__dirname, "/routes/install_package")));
+app.use("/delete_error_logs", require("".concat(__dirname, "/routes/delete_error_logs")));
+app.use("*", function (req, res, next) {
+    if (process.env.LOGIN_REQUIRED == "true") {
+        if (!req.session.username) {
+            res.sendFile("".concat(__dirname, "/pages/login.html"));
         }
     }
-    else {
-        res.end(JSON.stringify({
-            Success: false,
-            Message: "No Name Given",
-        }));
-    }
+    next();
 });
 app.get("/", function (req, res) {
-    req.session.PORT = process.env.PORT;
-    if (process.env.LOGIN_REQUIRED == "true") {
-        if (req.session.username != null) {
-            res.sendFile("./pages/index.html", { root: __dirname });
-        }
-        else {
-            res.sendFile("./pages/login.html", { root: __dirname });
-        }
+    console.log(req.session.username);
+    res.sendFile("".concat(__dirname, "/pages/home.html"));
+});
+app.get("/:name", function (req, res) {
+    var Path = "".concat(__dirname, "/pages/").concat(req.params.name, ".html");
+    if (fs.existsSync(Path)) {
+        res.sendFile(Path);
     }
     else {
-        res.sendFile("./pages/index.html", { root: __dirname });
+        res.end("This file does not exist");
     }
 });
 app.get("/system", function (req, res) {
@@ -161,30 +82,7 @@ app.get("/system", function (req, res) {
         res.end(JSON.stringify(data));
     });
 });
-app.get("/:name", function (req, res) {
-    if (process.env.LOGIN_REQUIRED == "true") {
-        if (req.session.username == null) {
-            res.sendFile("./pages/login.html", { root: __dirname });
-        }
-    }
-    var Path = "./pages/".concat(req.params.name, ".html");
-    if (fs.existsSync(Path)) {
-        res.sendFile(Path, { root: __dirname });
-    }
-    else {
-        res.end("This file does not exist");
-    }
-});
-app.get("/file/:name", function (req, res) {
-    var Path = "./public/".concat(req.params.name);
-    if (fs.existsSync(Path)) {
-        res.sendFile(Path, { root: __dirname });
-    }
-    else {
-        res.end("This file does not exist");
-    }
-});
-app.listen(process.env.PORT, function () {
+app.listen(parseFloat(process.env.PORT), function () {
     console.clear();
-    console.log(chalk.hex("#3082CF")(fs.readFileSync("./art.txt", "utf-8") || "", "\n\n[!] Dashboard Is Open On http://localhost:".concat(process.env.PORT || 2278)));
+    console.log(chalk.hex("#3082CF")(fs.readFileSync("./art.txt", "utf-8") || "", "\n\n[!] Dashboard Is Open On http://localhost:".concat(parseFloat(process.env.PORT))));
 });
