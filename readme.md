@@ -75,5 +75,5 @@ server  {
 
 ### Hosting
 
-<small>Sign-up from my refer link for a **100$** bonus</small><br>
+We host our panel on [DigitalOcean](https://www.digitalocean.com/?refcode=bcc56aadc190&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge), and so can you. You can signup from our url for a 100$ start-up credit<br>
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%203.svg)](https://www.digitalocean.com/?refcode=bcc56aadc190&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
