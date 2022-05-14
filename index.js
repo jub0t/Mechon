@@ -15,18 +15,17 @@ var fs = require("fs");
 var app = express();
 var SETTINGS = require("./settings.json");
 var Blacklist = SETTINGS.BLACK_LISTED_DIRS;
-var sessionConf = {
+app.set("trust proxy", true);
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ extended: true }));
+app.use(Uploader());
+app.use(cors());
+app.use(session({
     proxy: true,
     resave: false,
     saveUninitialized: true,
     secret: process.env.SECRET_PATH,
-};
-app.set("trust proxy", true);
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json({ extended: true }));
-app.use(session(sessionConf));
-app.use(Uploader());
-app.use(cors());
+}));
 app.use("/log", require("".concat(__dirname, "/routes/log")));
 app.use("/dirs", require("".concat(__dirname, "/routes/dirs")));
 app.use("/stop", require("".concat(__dirname, "/routes/stop")));
@@ -59,14 +58,13 @@ app.use("/delete_error_logs", require("".concat(__dirname, "/routes/delete_error
 app.use("*", function (req, res, next) {
     if (process.env.LOGIN_REQUIRED == "true") {
         if (!req.session.username) {
-            res.sendFile("".concat(__dirname, "/pages/login.html"));
+            return res.sendFile("".concat(__dirname, "/pages/login.html"));
         }
     }
     next();
 });
 app.get("/", function (req, res) {
-    console.log(req.session.username);
-    res.sendFile("".concat(__dirname, "/pages/home.html"));
+    res.redirect("/home");
 });
 app.get("/:name", function (req, res) {
     var Path = "".concat(__dirname, "/pages/").concat(req.params.name, ".html");
@@ -74,7 +72,7 @@ app.get("/:name", function (req, res) {
         res.sendFile(Path);
     }
     else {
-        res.end("This file does not exist");
+        res.json({ Sucess: false, Message: "Page not found" });
     }
 });
 app.get("/system", function (req, res) {

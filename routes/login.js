@@ -29,7 +29,6 @@ router.post("/", function (req, res) {
     if (req.body.username == process.env.ADMIN_USERNAME &&
         req.body.password == process.env.ADMIN_PASSWORD) {
         req.session.username = req.body.username;
-        console.log(req.session);
         req.session.save(function (err) {
             if (err) {
                 console.log(err);
