@@ -25,9 +25,11 @@ npm i forever -g
 ## Downlaod Code
 git clone https://github.com/jareer12/DiscordBotPanel.git
 ## Open the folder
-cd /path/to/panel
+cd DiscordBotPanel
 ## Install Required Modules
 npm install
+### Rename .env
+mv .env.example .env
 ```
 
 ### Env config
@@ -44,20 +46,29 @@ Once the installation and configuration is complete we can start our panel and r
 
 ```shell
 ## Open the folder
-cd /path/to/panel
+cd DiscordBotPanel
 ## Run the panel
 forever start index.js
 ```
 
 ```shell
 ## This can also be used but is not recommended
-cd /path/to/panel && node .
+cd DiscordBotPanel && node .
 ```
 
-### Manual File Interaction
+### Nginx Config
 
-If you don't want to use the built-in file manager you can always upload your code to `/bots` directory.
+```nginx
+server  {
+    listen 80;
+    server_name    server.jubot.site; ## Your Server
 
-### Contribution
-
-Pull requests are appretiated, anything will help even the smallest typos.
+    location / {
+        proxy_pass         http://localhost:2278; ### Replace "2278" With Your Port(If You Changed).
+        proxy_http_version 1.1;
+        proxy_set_header   Upgrade $http_upgrade;
+        proxy_set_header   Connection "upgrade";
+        proxy_set_header   Host $host;
+    }
+}
+```
