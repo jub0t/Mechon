@@ -18,14 +18,14 @@ We host our panel on [DigitalOcean](https://www.digitalocean.com/?refcode=bcc56a
 ## Installation
 
 ```shell
-## Install PM2 Globaly
+## Install PM2 Globally
 npm i pm2 -g
-## Install forever Globaly
+## Install forever Globally
 npm i forever -g
 ```
 
 ```shell
-## Downlaod Code
+## Download Code
 git clone https://github.com/jareer12/DiscordBotPanel.git
 ## Open the folder
 cd DiscordBotPanel
