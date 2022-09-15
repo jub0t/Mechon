@@ -15,6 +15,8 @@ We host our panel on [DigitalOcean](https://www.digitalocean.com/?refcode=bcc56a
 
 ## Installation
 
+### Standard Installation
+
 ```shell
 ## Install PM2 Globally
 npm i pm2 -g
@@ -31,6 +33,16 @@ cd DiscordBotPanel
 npm install
 ### Rename .env
 mv .env.example .env
+```
+
+### Docker Compose
+
+```shell
+## Clone this repository
+git clone https://github.com/jareer12/DiscordBotPanel.git
+
+## Rename .env - Change everything to your liking except PORT
+mv .env.example
 ```
 
 ### Demo
@@ -54,6 +66,8 @@ By default the login system is disabled but you can enable it by changing `LOGIN
 
 Once the installation and configuration is complete we can start our panel and run it. We'll be using `forever` to run the panel, the reason we'll use `forever` is that it can prevent downtime, so in case our panel runs into and error that it can not handle(which it most likely will), `forever` will re-start the panel by itself, preventing downtime.
 
+#### Standard (non-docker)
+
 ```shell
 ## Open the folder
 cd DiscordBotPanel
@@ -64,6 +78,12 @@ forever start index.js
 ```shell
 ## This can also be used but is not recommended
 cd DiscordBotPanel && node .
+```
+
+#### Docker Compose
+
+```
+docker compose up -d
 ```
 
 ### Nginx Config
