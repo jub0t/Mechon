@@ -38,7 +38,7 @@ module.exports = function InsertBase(path_name, main_entry) {
                         fs.writeFile("./".concat(process.env.SECRET_PATH, "/").concat(path_name, "/package.json"), JSON.stringify(PackageJsonBase, null, 4), function (err) {
                             if (err)
                                 return console.error(err);
-                            fs.copyFile("./template/readme.md", Readme, function (err) {
+                            fs.copyFile("./template/README.md", Readme, function (err) {
                                 if (err)
                                     throw err;
                                 Terminal("cd ./".concat(process.env.SECRET_PATH, "/").concat(path_name, " && npm install"))
