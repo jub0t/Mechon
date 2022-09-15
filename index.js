@@ -49,6 +49,7 @@ app.use("/delete_logs", require("".concat(__dirname, "/routes/delete_logs")));
 app.use("/npm_install", require("".concat(__dirname, "/routes/npm_install")));
 app.use("/create_file", require("".concat(__dirname, "/routes/create_file")));
 app.use("/update_main", require("".concat(__dirname, "/routes/update_main")));
+app.use("/update_file", require("".concat(__dirname, "/routes/update_file")));
 app.use("/upload_file", require("".concat(__dirname, "/routes/upload_file")));
 app.use("/delete_[ath]", require("".concat(__dirname, "/routes/delete_logs")));
 app.use("/file_content", require("".concat(__dirname, "/routes/file_content")));
