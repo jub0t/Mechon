@@ -1,7 +1,6 @@
 # Discord Bot Panel - DBP
 
-Host and manage your discord bots from a web panel, deploy once use anywhere. Please read and follow the guide carefully to properly setup the panel.
-We host our panel on [DigitalOcean](https://www.digitalocean.com/?refcode=bcc56aadc190&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge), and so can you. You can signup from our url for a 100$ start-up credit<br>
+New & better panel coming soon...
 
 ![Image](/preview.jpg)
 
