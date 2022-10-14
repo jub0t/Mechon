@@ -41,7 +41,7 @@ mv .env.example .env
 git clone https://github.com/jareer12/DiscordBotPanel.git
 
 ## Rename .env - Change everything to your liking except PORT
-mv .env.example
+mv .env.example .env
 ```
 
 ### Demo
