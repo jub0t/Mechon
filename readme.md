@@ -1,7 +1,5 @@
 # Discord Bot Panel - DBP
 
-Project deprecated, use [this](https://github.com/jareer12/centauri) instead.
-
 ![Image](/preview.jpg)
 
 ## What's New?
