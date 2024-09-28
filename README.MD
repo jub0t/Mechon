@@ -1,3 +1,5 @@
+![Preview](./docs/preview.svg)
+
 > [!IMPORTANT]
 > - [Getting Started](./docs/GETTING-STARTED.MD): Use this link if you want to learn how to set this software up.
 
