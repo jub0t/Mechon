@@ -1,4 +1,0 @@
-{
-  "BLACK_LISTED_DIRS": ["..", "../", "//", "./", ".bat", ".sh", ".exe", ".vb"],
-  "IGNORE_DIRECTORY": ["logs"]
-}
