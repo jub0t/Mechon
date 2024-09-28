@@ -44,8 +44,8 @@ export default function FileManagerPage({
 
                         <TableBody>
                             {
-                                dummy_files.map(file => {
-                                    return <TableRow className={`cursor-pointer ${selectedRows.includes(file.name) ? '' : ''}`} onClick={(e) => {
+                                dummy_files.map((file, index) => {
+                                    return <TableRow key={index} className={`cursor-pointer ${selectedRows.includes(file.name) ? '' : ''}`} onClick={(e) => {
                                         !selectedRows.includes(file.name) ? setSelectedRows([...selectedRows, file.name]) : {}
                                     }}>
                                         <TableCell>
