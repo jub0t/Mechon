@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Ignore Javascript & Stylesheets
+*.js linguist-vendored=false
+*.scss linguist-vendored=false
