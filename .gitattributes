@@ -1,5 +1,7 @@
-# Auto detect text files and perform LF normalization
+# Automatically detect text files and perform LF normalization
 * text=auto
 
+# Mark JavaScript and SCSS files as vendored, so they don't affect statistics (e.g., for GitHub linguist)
 *.js linguist-vendored
+*.mjs linguist-vendored
 *.scss linguist-vendored
