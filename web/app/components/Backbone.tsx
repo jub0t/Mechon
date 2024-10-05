@@ -9,8 +9,6 @@ import {
     Logs,
     Folders,
     Terminal,
-    Frown,
-    OctagonX,
     Network,
     Sun,
 } from "lucide-react";
@@ -25,9 +23,7 @@ import {
     ResizablePanel,
     ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { Card } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
 
 const LayoutLessRoutes = ["/login"]
 
@@ -96,15 +92,14 @@ export default function Backbone({
 
                                         <DropdownMenu>
                                             <DropdownMenuTrigger className="w-full">
-                                                <Button variant={"outline"} className="flex gap-2 items-center w-full">
+                                                <span className="items-center justify-center border py-2 rounded-md flex gap-2 items-center w-full">
                                                     <span>
                                                         <Sun className="w-4 g-4" />
                                                     </span>
                                                     <span>
                                                         Select Theme
                                                     </span>
-                                                </Button>
-
+                                                </span>
                                             </DropdownMenuTrigger>
 
                                             <DropdownMenuContent
@@ -117,11 +112,10 @@ export default function Backbone({
                                                     ].map((v, i) => {
                                                         return <DropdownMenuItem
                                                             key={i}
-                                                            className="w-full"
+                                                            className="rounded-sm cursor-pointer w-full flex space-y-2 flex-wrap"
                                                         >
-                                                            <Button
+                                                            <span
                                                                 className="w-full"
-                                                                variant={"outline"}
                                                                 onClick={async () => {
                                                                     fetch('/api/switch-theme', {
                                                                         method: "POST",
@@ -140,7 +134,7 @@ export default function Backbone({
                                                                 <span>
                                                                     {v}
                                                                 </span>
-                                                            </Button>
+                                                            </span>
                                                         </DropdownMenuItem>
                                                     })
                                                 }

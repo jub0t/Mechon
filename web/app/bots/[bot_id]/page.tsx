@@ -26,7 +26,8 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/hooks/use-toast";
 
 const LogTypes = ["out", "success", "error"];
 export type LogType = "out" | "success" | "error";
@@ -34,6 +35,7 @@ export interface LogItem {
     content: string,
     type: LogType,
 }
+
 
 const LogTypeToColor = function (log: LogType): string {
     const matches = {
@@ -48,6 +50,7 @@ const LogTypeToColor = function (log: LogType): string {
 
 export default function SingleBotPage({ }: {
 }) {
+    const { toast } = useToast()
     const params = useParams();
     const bot_id = params['bot_id'];
 
@@ -77,7 +80,15 @@ export default function SingleBotPage({ }: {
                                 </div>
                             </Card>
 
-                            <Button variant={"default"} className="bg-primary">Start</Button>
+                            <Button variant={"default"} className="bg-primary" onClick={() => {
+                                toast({
+                                    title: "Scheduled: Catch up ",
+                                    description: "Friday, February 10, 2023 at 5:57 PM",
+                                    action: (
+                                        <ToastAction altText="Goto schedule to undo">Undo</ToastAction>
+                                    ),
+                                })
+                            }}>Start</Button>
                         </div>
 
                         <div className="flex gap-2 items-center">

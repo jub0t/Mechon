@@ -7,6 +7,7 @@ import { Sen as GlobalFont } from "next/font/google"
 import { cookies } from "next/headers";
 import type { Metadata } from "next";
 import "./globals.scss";
+import { Toaster } from "@/components/ui/toaster";
 
 const master_font = GlobalFont({
   adjustFontFallback: true,
@@ -37,9 +38,6 @@ export default function RootLayout({
     <html lang="en" className={cn("",
       master_font.className,
     )}>
-      <style>
-
-      </style>
       <head>
         <link rel="icon" href="/favicon.svg" />
       </head>
@@ -51,6 +49,7 @@ export default function RootLayout({
         <Backbone>
           {children}
         </Backbone>
+        <Toaster />
       </body>
     </html>
   );

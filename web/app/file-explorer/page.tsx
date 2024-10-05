@@ -5,15 +5,8 @@ import { Separator } from "@/components/ui/separator";
 import * as React from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from "@/components/tremor/Table";
 import { ByteFormat } from "@/lib/formatter";
-
-const dummy_files = [
-    {
-        name: "index.js",
-        size: 643,
-        type: 1, // 1 = file, 0 = directory
-        createdAt: new Date(),
-    }
-]
+import directories from "@/data/directories";
+import { DirectoryType } from "@/lib/utils";
 
 export default function FileManagerPage({
 }) {
@@ -44,16 +37,20 @@ export default function FileManagerPage({
 
                         <TableBody>
                             {
-                                dummy_files.map((file, index) => {
-                                    return <TableRow key={index} className={`cursor-pointer ${selectedRows.includes(file.name) ? '' : ''}`} onClick={(e) => {
-                                        !selectedRows.includes(file.name) ? setSelectedRows([...selectedRows, file.name]) : {}
+                                directories.map((dir, index) => {
+                                    return <TableRow key={index} className={`cursor-pointer ${selectedRows.includes(dir.name) ? '' : ''}`} onClick={(e) => {
+                                        !selectedRows.includes(dir.name) ? setSelectedRows([...selectedRows, dir.name]) : {}
                                     }}>
                                         <TableCell>
                                         </TableCell>
-                                        <TableCell>{file.name}</TableCell>
-                                        <TableCell>{file.type == 1 ? "File" : "Directory"}</TableCell>
-                                        <TableCell>{ByteFormat("byte").format(file.size)}</TableCell>
-                                        <TableCell>{file.createdAt.toISOString()}</TableCell>
+                                        <TableCell>{dir.name}</TableCell>
+                                        <TableCell>{dir.type == DirectoryType.File ? "File" : "Directory"}</TableCell>
+                                        <TableCell>
+                                            {
+                                                dir?.size != null ? ByteFormat("byte").format(dir.size) : null
+                                            }
+                                        </TableCell>
+                                        <TableCell>{dir.createdAt.toISOString()}</TableCell>
                                     </TableRow>
                                 })
                             }
