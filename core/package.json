@@ -10,12 +10,14 @@
     "dev:db": "surreal start --username root --pass root --auth"
   },
   "devDependencies": {
+    "@types/dockerode": "^3.3.31",
     "@types/node": "^20.5.7",
     "typescript": "^5.2.2",
     "vitest": "^1.5.0"
   },
   "dependencies": {
     "check-disk-space": "^3.4.0",
+    "dockerode": "^4.0.2",
     "encore.dev": "^1.40.0",
     "node-color-log": "^12.0.1",
     "surrealdb": "^1.0.0-beta.21",
