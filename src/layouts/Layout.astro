@@ -2,6 +2,9 @@
 import "../styles/theme.scss";
 import "../styles/global.css";
 import "../styles/custom.scss";
+
+const pathname: string = Astro.url.pathname;
+console.log(pathname);
 ---
 
 <!doctype html>
@@ -25,20 +28,41 @@ import "../styles/custom.scss";
 
 					<!-- Navigation -->
 					<nav class="flex flex-col text-sm gap-2">
-						<a href="#" class="sidebar-link active">Dashboard</a>
-						<a href="#" class="sidebar-link">Analytics</a>
-						<a href="#" class="sidebar-link">Users</a>
-						<a href="#" class="sidebar-link">Settings</a>
+						{
+							[
+								{
+									l: "Dashboard",
+									p: "/",
+								},
+								{
+									l: "Applications",
+									p: "/applications",
+								},
+								{
+									l: "Terminal",
+									p: "/terminal",
+								},
+							].map((a) => {
+								return (
+									<a
+										href={a.p}
+										class={`sidebar-link ${pathname === a.p ? "active" : undefined}`}
+									>
+										{a.l}
+									</a>
+								);
+							})
+						}
 					</nav>
 				</div>
 
 				<!-- Bottom: Account or Logout -->
 				<div>
 					<a
-						href="#"
-						class="text-sm sidebar-link text-red-400 hover:text-red-300"
-						>Logout</a
+						class="text-sm sidebar-link text-red-400 hover:bg-[hsl(var(--color-text-danger))]"
 					>
+						Logout
+					</a>
 				</div>
 			</aside>
 
@@ -73,7 +97,7 @@ import "../styles/custom.scss";
 		}
 
 		&.active {
-			background-color: hsl(var(--color-neutral-80));
+			background-color: hsl(var(--color-neutral-85));
 			font-weight: 600;
 		}
 	}
