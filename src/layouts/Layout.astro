@@ -1,12 +1,36 @@
+---
+import "../styles/theme.scss";
+import "../styles/global.css";
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<title>Astro Basics</title>
 	</head>
-	<body>
-		<slot />
+
+	<body class="darkground flex w-full h-screen">
+		<!-- Sidebar or Fixed Panel -->
+		<section class="min-w-[200px] h-full">
+			<!-- Content if needed -->
+		</section>
+
+		<!-- Main Panel taking the rest of the space -->
+		<section class="panel flex-grow h-full">
+			<slot />
+		</section>
 	</body>
 </html>
+
+<style lang="scss" scoped>
+	.darkground {
+		background-color: hsl(var(--color-neutral-105));
+	}
+
+	.panel {
+		background-color: hsl(var(--color-neutral-100));
+	}
+</style>
