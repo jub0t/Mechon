@@ -1,6 +1,7 @@
 ---
 import "../styles/theme.scss";
 import "../styles/global.css";
+import "../styles/custom.scss";
 ---
 
 <!doctype html>
@@ -13,15 +14,39 @@ import "../styles/global.css";
 	</head>
 
 	<body class="darkground flex w-full h-screen">
-		<!-- Sidebar or Fixed Panel -->
-		<section class="min-w-[200px] h-full">
-			<!-- Content if needed -->
-		</section>
+		<main class="w-full h-full flex">
+			<!-- Sidebar -->
+			<aside
+				class="sidebar min-w-[240px] h-full flex flex-col justify-between pd-border px-4 py-6"
+			>
+				<!-- Top: Logo / Brand -->
+				<div class="space-y-8">
+					<div class="text-white text-xl font-bold px-2">ACME</div>
 
-		<!-- Main Panel taking the rest of the space -->
-		<section class="panel flex-grow h-full">
-			<slot />
-		</section>
+					<!-- Navigation -->
+					<nav class="flex flex-col text-sm gap-2">
+						<a href="#" class="sidebar-link active">Dashboard</a>
+						<a href="#" class="sidebar-link">Analytics</a>
+						<a href="#" class="sidebar-link">Users</a>
+						<a href="#" class="sidebar-link">Settings</a>
+					</nav>
+				</div>
+
+				<!-- Bottom: Account or Logout -->
+				<div>
+					<a
+						href="#"
+						class="text-sm sidebar-link text-red-400 hover:text-red-300"
+						>Logout</a
+					>
+				</div>
+			</aside>
+
+			<!-- Main Content -->
+			<section class="panel flex-grow h-full">
+				<slot />
+			</section>
+		</main>
 	</body>
 </html>
 
@@ -32,5 +57,24 @@ import "../styles/global.css";
 
 	.panel {
 		background-color: hsl(var(--color-neutral-100));
+	}
+
+	.pd-border {
+		border-right: 1px solid hsl(var(--color-neutral-85));
+	}
+
+	.sidebar-link {
+		@apply block w-full px-4 py-2 rounded-lg text-gray-100 transition-colors duration-150;
+
+		background-color: hsl(var(--color-neutral-90));
+
+		&:hover {
+			background-color: hsl(var(--color-neutral-85));
+		}
+
+		&.active {
+			background-color: hsl(var(--color-neutral-80));
+			font-weight: 600;
+		}
 	}
 </style>
