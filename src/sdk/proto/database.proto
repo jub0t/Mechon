@@ -1,0 +1,19 @@
+syntax = "proto3";
+package database;
+
+service Application {
+    rpc Start (GetAllUsersRequest) returns (GetAllUsersResponse);
+}
+
+message GetAllUsersRequest {
+    string id = 1;
+}
+
+message UserInfo {
+    string username = 1; 
+    string password = 2; 
+}
+
+message GetAllUsersResponse {
+    repeated UserInfo data = 1; 
+}

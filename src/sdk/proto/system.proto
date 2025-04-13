@@ -1,0 +1,25 @@
+syntax = "proto3";
+package system;
+
+message Empty {}
+
+service SystemService {
+    rpc GetSystemInfo (Empty) returns (stream SystemInfo);
+    rpc GetResourceUsage (Empty) returns (stream Resources);
+}
+  
+message Resources {
+  int64 memory_used = 1;
+  int64 disk_used = 2;
+  int64 cpu_used = 3;
+}
+
+message SystemInfo {
+    int64 total_memory = 1;
+    int64 total_disk = 2;
+    CpuInfo cpu = 3;
+}
+
+message CpuInfo {
+    int64 speed = 1;
+}

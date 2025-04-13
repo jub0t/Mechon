@@ -1,0 +1,57 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import can from "../../sdk/abstract";
+
+const bots = await can.getApplicationList();
+---
+
+<Layout>
+    <main class="px-[10rem] py-[3rem]">
+        <section>
+            <h1 class="text-neutral-15 text-3xl font-bold">Applications</h1>
+        </section>
+
+        <section class="mt-12">
+            <div
+                class="overflow-x-auto rounded-xl border border-neutral-85 bg-neutral-90"
+            >
+                <table class="min-w-full text-left text-sm text-neutral-20">
+                    <thead
+                        class="uppercase text-xs text-neutral-40 border-b border-neutral-85"
+                    >
+                        <tr>
+                            <th class="px-6 py-4">ID</th>
+                            <th class="px-6 py-4">Name</th>
+                            <th class="px-6 py-4">Status</th>
+                            <th class="px-6 py-4">Engine</th>
+                            <th class="px-6 py-4">
+                                <!-- Actions -->
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            bots.data.map((bot) => {
+                                return (
+                                    <tr class="border-b border-neutral-85 hover:bg-neutral-80 transition">
+                                        <td class="px-6 py-4 text-neutral-10 font-semibold">
+                                            {bot.id}
+                                        </td>
+                                        <td class="px-6 py-4">{bot.name}</td>
+                                        <td class="px-6 py-4">{bot.status}</td>
+                                        <td class="px-6 py-4">{bot.engine}</td>
+                                        <td class="px-6 py-4">
+                                            <button class="py-2 px-5 rounded-lg bg-neutral-85">
+                                                Configure
+                                            </button>
+                                        </td>
+                                    </tr>
+                                );
+                            })
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</Layout>
