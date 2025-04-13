@@ -4,7 +4,6 @@ import "../styles/global.css";
 import "../styles/custom.scss";
 
 const pathname: string = Astro.url.pathname;
-console.log(pathname);
 ---
 
 <!doctype html>
@@ -16,11 +15,17 @@ console.log(pathname);
 		<title>Astro Basics</title>
 	</head>
 
-	<body class="darkground flex w-full h-screen">
-		<main class="w-full h-full flex">
+	<body class="darkground flex flex-wrap w-full h-screen overflow-hidden">
+		<nav
+			class="bg-[hsl(var(--color-neutral-105))] py-2 h-[3.5rem] w-full border-b border-neutral-85"
+		>
+			<!--  -->
+		</nav>
+
+		<main class="w-full h-[calc(100vh-3.5rem)] flex overflow-hidden">
 			<!-- Sidebar -->
 			<aside
-				class="sidebar min-w-[240px] h-full flex flex-col justify-between pd-border px-4 py-6"
+				class="sidebar min-w-[240px] h-full flex flex-col justify-between pd-border px-4 pt-6 pb-2"
 			>
 				<!-- Top: Logo / Brand -->
 				<div class="space-y-8">
@@ -30,26 +35,11 @@ console.log(pathname);
 					<nav class="flex flex-col text-sm gap-2">
 						{
 							[
-								{
-									l: "Dashboard",
-									p: "/",
-								},
-								{
-									l: "Applications",
-									p: "/applications",
-								},
-								{
-									l: "File Manager",
-									p: "/file-manager",
-								},
-								{
-									l: "Terminal",
-									p: "/terminal",
-								},
-								{
-									l: "Users",
-									p: "/users",
-								},
+								{ l: "Dashboard", p: "/" },
+								{ l: "Applications", p: "/applications" },
+								{ l: "File Manager", p: "/file-manager" },
+								{ l: "Terminal", p: "/terminal" },
+								{ l: "Users", p: "/users" },
 							].map((a) => {
 								return (
 									<a
@@ -65,7 +55,7 @@ console.log(pathname);
 				</div>
 
 				<!-- Bottom: Account or Logout -->
-				<div>
+				<div class="mt-auto pt-4">
 					<a
 						class="text-sm sidebar-link text-red-400 hover:bg-[hsl(var(--color-text-danger))]"
 					>
@@ -75,7 +65,26 @@ console.log(pathname);
 			</aside>
 
 			<!-- Main Content -->
-			<section class="panel flex-grow h-full">
+			<section class="panel flex-grow h-full overflow-y-auto">
+				<!-- Watermark (optional) -->
+				<!-- <section
+					class="text-center w-full bg-[hsl(var(--color-primary-300))] text-[hsl(var(--color-neutral-0))] py-1"
+				>
+					<p class="text-sm">
+						<strong>BETA</strong>
+						<span> </span>
+						<span
+							>open-source at <strong>
+								<a
+									target="_blank"
+									href="https://github.com/jub0t/mechon"
+									>github.com/jub0t/mechon</a
+								></strong
+							></span
+						>
+					</p>
+				</section> -->
+
 				<slot />
 			</section>
 		</main>
