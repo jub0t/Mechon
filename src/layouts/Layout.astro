@@ -29,7 +29,7 @@ const pathname: string = Astro.url.pathname;
 			>
 				<!-- Top: Logo / Brand -->
 				<div class="space-y-8">
-					<div class="text-white text-xl font-bold px-2">ACME</div>
+					<!-- <div class="text-white text-xl font-bold px-2">ACME</div> -->
 
 					<!-- Navigation -->
 					<nav class="flex flex-col text-sm gap-2">
@@ -55,12 +55,12 @@ const pathname: string = Astro.url.pathname;
 				</div>
 
 				<!-- Bottom: Account or Logout -->
-				<div class="mt-auto pt-4">
-					<a
+				<div class="mt-auto pt-2 mb-2">
+					<button
 						class="text-sm sidebar-link text-red-400 hover:bg-[hsl(var(--color-text-danger))]"
 					>
 						Logout
-					</a>
+					</button>
 				</div>
 			</aside>
 
