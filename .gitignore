@@ -1,24 +1,29 @@
-# build output
-dist/
+/target
+**/*.rs.bk
+Cargo.lock
 
-# generated types
-.astro/
+# Config (contains secrets)
+config.toml
+config.*.toml
+!config.example.toml
 
-# dependencies
-node_modules/
-
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# environment variables
+# Env
 .env
-.env.production
+.env.*
+!.env.example
 
-# macOS-specific files
-.DS_Store
+# sqlx offline mode cache
+.sqlx/
 
-# jetbrains setting folder
+# Bot working directories
+/data/
+
+# IDE
+.vscode/settings.json
 .idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
