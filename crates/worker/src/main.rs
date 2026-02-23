@@ -248,7 +248,7 @@ async fn fetch_archive(key: &str, cfg: &config::WorkerConfig) -> anyhow::Result<
 
 async fn register_worker(
     db: &sqlx::PgPool,
-    cfg: &config::WorkerConfig,
+    _cfg: &config::WorkerConfig,
 ) -> anyhow::Result<Uuid> {
     let mut resources = resources::SystemResources::new();
     resources.refresh();
