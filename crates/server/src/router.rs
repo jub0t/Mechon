@@ -48,6 +48,7 @@ pub fn build(state: AppState) -> Router {
 
         // Metrics
         .route("/bots/:id/metrics", get(metrics::get_metrics))
+        .route("/bots/:id/metrics/stream", get(metrics::stream_metrics))
 
         .layer(TraceLayer::new_for_http())
         .layer(CorsLayer::permissive())

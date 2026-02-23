@@ -44,3 +44,4 @@ aws-config = { workspace = true }
 
 axum-extra = { version = "0.9", features = ["typed-header"] }
 tokio-stream = "0.1"
+futures-util = "0.3"
