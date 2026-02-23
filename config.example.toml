@@ -3,7 +3,7 @@
 # Example: MECHON__SERVER__SECRET_KEY=mysecret
 
 [server]
-host = "0.0.0.0"
+host = "127.0.0.1"
 port = 8080
 # Must be at least 32 random characters. Generate with:
 #   openssl rand -hex 32
@@ -20,8 +20,8 @@ url = "redis://127.0.0.1:6379"
 # Use "s3" for MinIO / S3-compatible (recommended for multi-node).
 # Use "local" for single-server setups.
 [storage]
-driver = "local"                        # "local" | "s3"
-local_path = "/var/mechon/artifacts"    # used when driver = "local"
+driver = "local"                     # "local" | "s3"
+local_path = "/var/mechon/artifacts" # used when driver = "local"
 
 # Uncomment for S3 / MinIO:
 # driver = "s3"
@@ -31,3 +31,9 @@ local_path = "/var/mechon/artifacts"    # used when driver = "local"
 # secret_key = "minioadmin"
 # region = "us-east-1"
 # force_path_style = true              # required for MinIO
+
+# Worker node settings (only needed on machines running mechon-worker).
+[worker]
+work_dir = "/var/mechon/bots" # where bot code is extracted and run
+heartbeat_interval_secs = 30
+metrics_interval_secs = 10
