@@ -46,7 +46,7 @@ pub async fn spawn_bot(
         anyhow::bail!("Bot directory does not exist: {:?}", bot_dir);
     }
 
-    let mut child = tokio::process::Command::new(&cmd.runtime)
+    let child = tokio::process::Command::new(&cmd.runtime)
         .arg(&cmd.entrypoint)
         .current_dir(&bot_dir)
         .env("DISCORD_TOKEN", &cmd.encrypted_token)
@@ -105,11 +105,8 @@ pub async fn restart_bot(
 async fn graceful_kill(mut bot: RunningBot) {
     // SIGTERM equivalent on Unix; on Windows we just kill directly
     #[cfg(unix)]
-    {
-        use std::os::unix::process::CommandExt;
-        if let Some(pid) = bot.child.id() {
-            unsafe { libc::kill(pid as i32, libc::SIGTERM) };
-        }
+    if let Some(pid) = bot.child.id() {
+        unsafe { libc::kill(pid as i32, libc::SIGTERM) };
     }
 
     let timeout = tokio::time::timeout(
